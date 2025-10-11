@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Digital Farm Stand | Saffire Courses</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Lora:wght@400;600&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'saffire-gold': '#FBBF24',
+                        'soft-terracotta': '#F3E9E2',
+                    },
+                    fontFamily: {
+                        'sans': ['Inter', 'sans-serif'],
+                        'serif': ['Lora', 'serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #FDFBF8;
+            color: #334155;
+            padding-top: 80px; /* Added padding for fixed header */
+        }
+        h1, h2, h3, h4, h5 {
+            font-family: 'Lora', serif;
+            color: #111827;
+        }
+        .course-card {
+            transition: all 0.3s ease-in-out;
+        }
+        .course-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.25);
+        }
+         .header-scrolled {
+            background-color: rgba(253, 251, 248, 0.8);
+            border-bottom-width: 1px;
+            border-color: #e7e5e4;
+            backdrop-filter: blur(16px);
+            box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+        }
+        .header-scrolled .brand-text {
+            color: #111827;
+        }
+        .icon-lotus { 
+            display: inline-block;
+            width: 1.25em;
+            height: 1.25em;
+            background-color: currentColor;
+            clip-path: path('M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.16 2.54 7.68 6.08 9.13C9.28 21.6 10.6 22 12 22s2.72-.4 3.92-.87C19.46 19.68 22 16.16 22 12zM12 4c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2zm0 16c-3.31 0-6-2.69-6-6s2.69-6 6-6 6 2.69 6 6-2.69 6-6 6z'); 
+            transform: scale(0.06) translate(-200px, -200px); 
+        }
+    </style>
+</head>
+<body class="antialiased">
+    <header id="main-header" class="fixed top-0 left-0 right-0 z-50 header-scrolled">
+        <div class="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="saffire.html" class="flex items-center space-x-3">
+                 <span class="icon-lotus text-pink-500 text-3xl"></span>
+                 <span class="font-serif text-2xl font-bold brand-text">Saffire</span>
+                 <span class="font-sans text-sm text-slate-500 ml-2">by LOTUS Nexus</span>
+            </a>
+            <a href="lila_farm.html" class="bg-blue-600 text-white font-semibold px-5 py-2.5 rounded-lg shadow-lg hover:bg-blue-700 active:scale-95 transition-all duration-200">
+                See it in Action at Lila Farm
+            </a>
+        </div>
+    </header>
+
+    <div class="p-4 sm:p-6 lg:p-8">
+        <div class="max-w-5xl mx-auto">
+            <header class="text-center py-12">
+                <h1 class="text-5xl sm:text-6xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-purple-500 tracking-tight">
+                    The Digital Farm Stand
+                </h1>
+                <p class="mt-4 text-lg sm:text-xl text-slate-600 max-w-3xl mx-auto">Welcome to our online learning hub. Here, we share the core principles and practices of the Saffire philosophy. Choose your path below to begin your journey of listening to the land.</p>
+            </header>
+
+            <main class="mt-8">
+                <!-- Introductory Course -->
+                <div class="bg-soft-terracotta p-8 rounded-2xl shadow-lg border border-slate-200/80">
+                    <div class="grid md:grid-cols-2 gap-8 items-center">
+                        <div class="md:order-2">
+                             <img src="../assets/images/Person in Hat Harvesting Vegetables.jpg" alt="A vibrant and healthy home garden." class="rounded-lg shadow-md w-full h-full object-cover">
+                        </div>
+                        <div class="md:order-1">
+                            <span class="text-sm font-bold text-blue-600">INTRODUCTORY COURSE</span>
+                            <h2 class="text-3xl font-bold mt-2 mb-4">The Saffire Home Garden</h2>
+                            <p class="text-slate-600 leading-relaxed mb-6">Our flagship course for beginners. Learn to apply our "listening" philosophy to your own space using simple, accessible technology to build a more empathetic and effective relationship with your garden.</p>
+                            <a href="course_home_garden.html" class="bg-saffire-gold text-slate-900 font-bold px-6 py-3 rounded-lg inline-block hover:opacity-90 transition-opacity">Learn More</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Masterclasses Header -->
+                <div class="text-center mt-20">
+                    <h2 class="text-4xl font-bold">Premium Masterclasses</h2>
+                    <p class="text-slate-600 mt-2 text-lg">Take a deep dive into the core Saffire systems.</p>
+                </div>
+
+                <div class="space-y-16 mt-12">
+                    <!-- Masterclass 1: Herd -->
+                     <div class="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
+                        <div class="md:order-2">
+                            <video src="../assets/images/CowsWalkingTogether.mp4" autoplay muted loop playsinline width="640" height="360" class="rounded-lg shadow-xl w-full h-auto object-cover">
+                                Your browser does not support the video tag.
+                            </video>
+                        </div>
+                        <div class="md:order-1">
+                            <h3 class="text-2xl font-bold text-blue-600 mb-2">The Regenerative Herd</h3>
+                            <p class="text-sm font-semibold text-slate-500 mb-4">An AI-Guided Silvopasture Masterclass</p>
+                            <p class="text-slate-600 mb-4">Learn to turn livestock into partners for healing the land. This course covers the principles of regenerative grazing, augmented by modern technology like smart tags and AI-driven pasture rotation.</p>
+                             <a href="course_herd.html" class="bg-blue-600 text-white font-bold px-6 py-3 rounded-lg inline-block hover:bg-blue-700 transition-colors">View Course Details</a>
+                        </div>
+                    </div>
+                    
+                    <!-- Masterclass 2: Greenhouse -->
+                    <div class="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
+                        <div>
+                           <img src="../assets/images/HoopHouse.jpeg" alt="Interior of a modern greenhouse with saffron flowers blooming" class="rounded-lg shadow-xl w-full h-auto object-cover">
+                        </div>
+                        <div>
+                            <h3 class="text-2xl font-bold text-green-600 mb-2">The Synapse Greenhouse</h3>
+                             <p class="text-sm font-semibold text-slate-500 mb-4">An AI-Powered Masterclass</p>
+                            <p class="text-slate-600 mb-4">The complete blueprint for our 'living laboratory.' This masterclass guides you through building and operating a low-cost, high-performance aeroponic greenhouse, from the Maker Pipe frame to the AI 'listening' systems.</p>
+                            <a href="course_greenhouse.html" class="bg-blue-600 text-white font-bold px-6 py-3 rounded-lg inline-block hover:bg-blue-700 transition-colors">View Course Details</a>
+                        </div>
+                    </div>
+
+                    <!-- Masterclass 3: Apiary -->
+                    <div class="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
+                        <div class="md:order-2">
+                           <img src="../assets/images/Bees.jpg" alt="A beekeeper gently inspecting a frame from a beehive." class="rounded-lg shadow-xl w-full h-auto object-cover">
+                        </div>
+                        <div class="md:order-1">
+                            <h3 class="text-2xl font-bold text-amber-600 mb-2">The Listening Hive</h3>
+                            <p class="text-sm font-semibold text-slate-500 mb-4">An AI-Powered Beekeeping Masterclass</p>
+                            <p class="text-slate-600 mb-4">Go beyond basic beekeeping and learn to be a data-informed steward of your colonies. This course teaches a revolutionary, hands-off approach, using in-hive sensors to understand colony health and predict problems with minimal intrusion.</p>
+                            <a href="course_hive.html" class="bg-blue-600 text-white font-bold px-6 py-3 rounded-lg inline-block hover:bg-blue-700 transition-colors">View Course Details</a>
+                        </div>
+                    </div>
+                    
+                    <!-- Masterclass 4: Coop -->
+                    <div class="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
+                        <div>
+                           <img src="../assets/images/ChickenCoop.jpg" alt="Happy chickens foraging in a pasture with a coop in the background." class="rounded-lg shadow-xl w-full h-auto object-cover">
+                        </div>
+                        <div>
+                            <h3 class="text-2xl font-bold text-red-600 mb-2">The Resourceful Coop</h3>
+                             <p class="text-sm font-semibold text-slate-500 mb-4">A Masterclass in Animal-Centric Design</p>
+                            <p class="text-slate-600 mb-4">Learn how to build and operate a low-cost, high-welfare home for your flock. This course covers everything from predator-proof construction to integrating simple, solar-powered automation, turning your coop into a key part of your farm's nutrient cycle.</p>
+                            <a href="course_crop.html" class="bg-blue-600 text-white font-bold px-6 py-3 rounded-lg inline-block hover:bg-blue-700 transition-colors">View Course Details</a>
+                        </div>
+                    </div>
+                    
+                    <!-- Masterclass 5: Drone -->
+                     <div class="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
+                        <div class="md:order-2">
+                           <img src="../assets/images/DroneImage.jpeg" alt="A drone flying over a lush green agricultural field." class="rounded-lg shadow-xl w-full h-auto object-cover">
+                        </div>
+                        <div class="md:order-1">
+                            <h3 class="text-2xl font-bold text-indigo-600 mb-2">The Sentinel Drone</h3>
+                            <p class="text-sm font-semibold text-slate-500 mb-4">An AI-Powered Precision Agriculture Masterclass</p>
+                            <p class="text-slate-600 mb-4">Go beyond what the eye can see. This course teaches you how to use multispectral drones and AI analysis to create detailed health maps of your land, enabling targeted interventions that save resources and dramatically improve pasture health.</p>
+                             <a href="course_drone.html" class="bg-blue-600 text-white font-bold px-6 py-3 rounded-lg inline-block hover:bg-blue-700 transition-colors">View Course Details</a>
+                        </div>
+                    </div>
+                </div>
+            </main>
+
+            <footer class="text-center mt-16 pt-12 border-t border-slate-200">
+                 <p class="text-slate-500">&copy; 2025 LOTUS Nexus. All Rights Reserved.</p>
+            </footer>
+        </div>
+    </div>
+</body>
+</html>
+

@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LOTUS Nexus | Innovation for a Better Future</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Lora:wght@400;600&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'nexus-blue': '#1E3A8A',
+                        'nexus-gold': '#FBBF24',
+                    },
+                    fontFamily: {
+                        'sans': ['Inter', 'sans-serif'],
+                        'serif': ['Lora', 'serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F9FAFB;
+            color: #374151;
+        }
+        h1, h2, h3 {
+            font-family: 'Lora', serif;
+            color: #111827;
+        }
+        .dark-section {
+            background-color: #111827;
+            color: #D1D5DB;
+        }
+        .dark-section h1, .dark-section h2, .dark-section p {
+            color: #E5E7EB;
+        }
+        .venture-card {
+            transition: all 0.3s ease-in-out;
+        }
+        .venture-card:hover {
+            transform: translateY(-12px);
+            box-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.2);
+        }
+        .venture-card:hover .venture-arrow {
+            transform: translateX(4px);
+        }
+        .card-image {
+            height: 180px;
+            object-fit: cover;
+            border-radius: 0.75rem 0.75rem 0 0;
+        }
+    </style>
+</head>
+<body class="antialiased overflow-x-hidden">
+    <!-- Growth Animation SVG: Fixed position on the left side -->
+    <div class="fixed left-4 md:left-8 top-0 h-full z-40 md:flex items-center pointer-events-none" aria-hidden="true">
+        <svg id="lotus-growth-svg" width="80" height="800" viewBox="0 0 80 800" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+                <linearGradient id="stemGradient" x1="0.5" y1="0" x2="0.5" y2="1">
+                    <stop offset="0%" stop-color="#38BDF8"/>
+                    <stop offset="100%" stop-color="#2563EB"/>
+                </linearGradient>
+            </defs>
+            <!-- Subtle background stem path, starts dark -->
+            <path id="stem-path" d="M40 800 V100" stroke="#374151" stroke-width="1"/>
+            <!-- Animated color stem path -->
+            <path id="stem-path-color" d="M40 800 V100" stroke="url(#stemGradient)" stroke-width="1"/>
+            <g id="lotus-flower" transform="translate(40 100)">
+                <path id="petal-back-1" d="M0 0 C -30 -30 -10 -60 0 -80 C 10 -60 30 -30 0 0" fill="#F472B6" opacity="0.5"/>
+                <path id="petal-back-2" d="M0 0 C -30 -30 -10 -60 0 -80 C 10 -60 30 -30 0 0" fill="#F472B6" opacity="0.5"/>
+                <path id="petal-back-3" d="M0 0 C -30 -30 -10 -60 0 -80 C 10 -60 30 -30 0 0" fill="#F472B6" opacity="0.5"/>
+                <path id="petal-front-1" d="M0 0 C -20 -25 -5 -45 0 -60 C 5 -45 20 -25 0 0" fill="#EC4899"/>
+                <path id="petal-front-2" d="M0 0 C -20 -25 -5 -45 0 -60 C 5 -45 20 -25 0 0" fill="#EC4899"/>
+                <path id="petal-front-3" d="M0 0 C -20 -25 -5 -45 0 -60 C 5 -45 20 -25 0 0" fill="#EC4899"/>
+                <circle id="petal-center" cx="0" cy="-25" r="8" fill="#FBBF24"/>
+            </g>
+        </svg>
+    </div>
+
+    <header id="main-header" class="fixed top-0 left-0 right-0 z-50 bg-slate-900/80 backdrop-blur-lg border-b border-slate-700">
+        <div class="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="#" class="flex items-center space-x-3">
+                 <svg class="h-8 w-8 text-white" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+                    <path d="M12 2L7 12H17L12 2Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                    <path d="M6 14C6 14 8 12 12 12C16 12 18 14 18 14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                    <path d="M4 18C4 18 7 15 12 15C17 15 20 18 20 18" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                </svg>
+                 <span class="font-serif text-2xl font-bold text-white">LOTUS Nexus</span>
+            </a>
+            <nav class="hidden md:flex items-center space-x-8">
+                <a href="#about-section" class="text-slate-300 hover:text-white font-semibold transition-colors">About</a>
+                <a href="#leadership-section" class="text-slate-300 hover:text-white font-semibold transition-colors">Leadership</a>
+                <a href="#ventures-section" class="text-slate-300 hover:text-white font-semibold transition-colors">Ventures</a>
+                <a href="#contact-section" class="text-slate-300 hover:text-white font-semibold transition-colors">Contact</a>
+            </nav>
+            <a href="#contact-section" class="hidden md:inline-block bg-nexus-blue text-white font-semibold px-5 py-2.5 rounded-lg shadow-lg hover:bg-blue-800 active:scale-95 transition-all duration-200">
+                Get in Touch
+            </a>
+        </div>
+    </header>
+
+    <main class="relative z-20">
+        <section id="hero-section" class="min-h-screen flex items-center dark-section relative overflow-hidden pt-24 pb-12">
+            <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_rgba(30,58,138,0.2)_0%,_rgba(30,58,138,0)_60%)]"></div>
+            <div class="container mx-auto px-6 md:pl-32 relative z-10 text-center">
+                <h1 class="text-5xl md:text-7xl font-bold max-w-4xl mx-auto text-white leading-tight">
+                    Building Ventures for a Purpose-Driven Future.
+                </h1>
+                <p class="text-xl text-slate-300 max-w-3xl mx-auto mt-6">
+                   LOTUS Nexus is an innovation firm and will be registered as a Benefit Corporation. We conceptualize and build technology-focused ventures designed to create positive social and environmental impact alongside financial returns.
+                </p>
+                <div class="mt-12">
+                     <a href="#ventures-section" class="bg-nexus-blue text-white font-bold text-lg px-8 py-4 rounded-lg inline-block hover:bg-blue-800 transition-colors">
+                        Explore Our Ventures
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <section id="about-section" class="py-24 bg-white">
+            <div class="max-w-6xl mx-auto px-6 md:pl-32">
+                <div class="text-center mb-16">
+                    <h2 class="text-4xl font-bold">Our Philosophy</h2>
+                    <p class="mt-3 text-lg text-slate-600 max-w-3xl mx-auto">We are guided by a core belief in unifying human-centric design with intelligent systems to solve meaningful problems.</p>
+                </div>
+                <div class="grid md:grid-cols-2 gap-12 items-center">
+                    <div class="space-y-6">
+                         <h3 class="text-3xl font-bold">A Nexus of Innovation and Purpose.</h3>
+                        <p class="text-slate-600 leading-relaxed">As a <strong class="text-nexus-blue">Benefit Corporation</strong>, our legal charter binds us to a higher standard of purpose, accountability, and transparency. We are committed to considering the impact of our decisions on our workers, customers, suppliers, community, and the environment.</p>
+                        <p class="text-slate-600 leading-relaxed">Positioned for incubation at <strong class="text-nexus-blue">UF Innovate</strong>, we operate at the intersection of academic research and commercial application, turning promising ideas into viable, impactful businesses.</p>
+                    </div>
+                     <div class="bg-slate-50 p-8 rounded-2xl border">
+                        <img src="https://images.unsplash.com/photo-1521791136064-7986c2920216?q=80&w=2070&auto=format&fit=crop" alt="A team collaborating around a whiteboard" class="rounded-lg shadow-lg">
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="leadership-section" class="py-24 bg-slate-50">
+            <div class="max-w-6xl mx-auto px-6 md:pl-32">
+                <div class="text-center mb-16">
+                    <h2 class="text-4xl font-bold">Our Leadership</h2>
+                    <p class="mt-3 text-lg text-slate-600 max-w-3xl mx-auto">Our ventures are guided by a singular vision to create meaningful change through technology.</p>
+                </div>
+                <div class="max-w-4xl mx-auto grid md:grid-cols-3 gap-12 items-center">
+                    <div class="md:col-span-1 flex justify-center">
+                        <img src="../assets/images/OwnerPic.jpeg" alt="Portrait of A R" class="w-48 h-48 rounded-full object-cover shadow-xl">
+                    </div>
+                    <div class="md:col-span-2">
+                        <h3 class="text-3xl font-bold">A R</h3>
+                        <p class="text-lg font-semibold text-nexus-blue mt-1">Founder & Chief Visionary</p>
+                        <p class="text-slate-600 mt-4 leading-relaxed">A R drives the ideation and strategic direction for all ventures within the LOTUS Nexus portfolio. With a passion for applying systems thinking to complex challenges, A R's vision is to build a new generation of companies where purpose and profit are inextricably linked, creating solutions that are both innovative and conscientious.</p>
+                    </div>
+                    <a href="./personpage.html" class="bg-nexus-blue text-white text-center font-bold text-lg px-8 py-4 rounded-lg inline-block hover:bg-blue-800 transition-colors">
+                        See Founder Page
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <section id="ventures-section" class="py-24 bg-white">
+             <div class="max-w-6xl mx-auto px-6 md:pl-32">
+                <div class="text-center mb-16">
+                    <h2 class="text-4xl font-bold">Our Ventures</h2>
+                    <p class="mt-3 text-lg text-slate-600 max-w-3xl mx-auto">From regenerative agriculture to educational technology, our ventures are diverse in focus but united by a common purpose.</p>
+                </div>
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-10">
+                    <!-- Saffire Card -->
+                    <a href="saffire.html" class="venture-card block bg-white rounded-2xl shadow-lg border border-slate-200/80 flex flex-col hover:border-pink-300">
+                        <img src="../assets/images/OwnerTinkering.jpeg" alt="Smart farm with drone" class="card-image rounded-t-2xl">
+                        <div class="p-8 flex flex-col flex-grow">
+                            <h3 class="text-2xl font-bold text-pink-600">Saffire</h3>
+                            <p class="text-slate-600 mt-2 flex-grow">An AI-powered system for regenerative agriculture that helps farmers listen to their land and optimize sustainable practices.</p>
+                            <div class="mt-auto pt-6">
+                               <span class="font-bold text-pink-600 flex items-center">Learn More <span class="venture-arrow ml-2 transition-transform">&rarr;</span></span>
+                            </div>
+                        </div>
+                    </a>
+                    <!-- Structura Card -->
+                    <a href="structura-website.html" class="venture-card block bg-white rounded-2xl shadow-lg border border-slate-200/80 flex flex-col hover:border-blue-300">
+                        <img src="../assets/images/Structura.jpeg" alt="Modern building blueprint" class="card-image rounded-t-2xl">
+                        <div class="p-8 flex flex-col flex-grow">
+                            <h3 class="text-2xl font-bold text-nexus-blue">Structura</h3>
+                            <p class="text-slate-600 mt-2 flex-grow">AI-driven software for automated building code compliance review, streamlining the design and approval process for safety and efficiency.</p>
+                            <div class="mt-auto pt-6">
+                               <span class="font-bold text-nexus-blue flex items-center">Learn More <span class="venture-arrow ml-2 transition-transform">&rarr;</span></span>
+                            </div>
+                        </div>
+                    </a>
+                    <!-- Fenestra Card -->
+                    <a href="fenestra-website.html" class="venture-card block bg-white rounded-2xl shadow-lg border border-slate-200/80 flex flex-col hover:border-green-300">
+                        <img src="../assets/images/ArgonLayer.jpg" alt="Window overlooking city" class="card-image rounded-t-2xl">
+                        <div class="p-8 flex flex-col flex-grow">
+                            <h3 class="text-2xl font-bold text-green-600">Fenestra</h3>
+                            <p class="text-slate-600 mt-2 flex-grow">An educational platform dedicated to making complex fenstration software and energy analysis accessible for the next generation of building professionals.</p>
+                            <div class="mt-auto pt-6">
+                               <span class="font-bold text-green-600 flex items-center">Learn More <span class="venture-arrow ml-2 transition-transform">&rarr;</span></span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+             </div>
+        </section>
+
+        <section id="contact-section" class="py-24 bg-white">
+            <div class="max-w-4xl mx-auto px-6 md:pl-32">
+                 <div class="text-center">
+                    <h2 class="text-4xl font-bold">Let's Build Together</h2>
+                    <p class="mt-3 text-lg text-slate-600 max-w-2xl mx-auto">We're always interested in new ideas, partnerships, and conversations with passionate people. Reach out to us.</p>
+                 </div>
+                 <form id="contact-form" class="mt-12 text-left max-w-xl mx-auto space-y-6">
+                     <div>
+                         <label for="name" class="block text-sm font-medium text-slate-700">Full Name</label>
+                         <input type="text" name="name" id="name" required class="mt-1 block w-full rounded-md border-slate-300 shadow-sm focus:border-nexus-blue focus:ring-nexus-blue">
+                     </div>
+                     <div>
+                         <label for="email" class="block text-sm font-medium text-slate-700">Email Address</label>
+                         <input type="email" name="email" id="email" required class="mt-1 block w-full rounded-md border-slate-300 shadow-sm focus:border-nexus-blue focus:ring-nexus-blue">
+                     </div>
+                     <div>
+                         <label for="message" class="block text-sm font-medium text-slate-700">Message</label>
+                         <textarea name="message" id="message" rows="4" required class="mt-1 block w-full rounded-md border-slate-300 shadow-sm focus:border-nexus-blue focus:ring-nexus-blue"></textarea>
+                     </div>
+                     <div class="text-right">
+                         <button type="submit" class="bg-nexus-blue text-white font-bold py-3 px-8 rounded-lg hover:bg-blue-800 transition-colors">Send Message</button>
+                     </div>
+                 </form>
+                 <div id="success-message" class="text-green-700 font-semibold text-center pt-4" style="display: none;"></div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="dark-section border-t border-slate-700 relative z-50">
+        <div class="max-w-6xl mx-auto py-8 px-6 text-center text-slate-400">
+             <p>&copy; 2025 LOTUS Nexus. All Rights Reserved.</p>
+             <p class="text-sm mt-2">LOTUS Nexus will be registered as a Benefit Corporation.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            gsap.registerPlugin(ScrollTrigger);
+            
+            // --- Lotus Growth Animation ---
+            const stemPathColor = document.getElementById('stem-path-color');
+            const mainElement = document.querySelector('main');
+
+            if (stemPathColor && mainElement) {
+                const pathLength = stemPathColor.getTotalLength();
+                stemPathColor.style.strokeDasharray = pathLength;
+                stemPathColor.style.strokeDashoffset = pathLength;
+                
+                gsap.to(stemPathColor, {
+                    strokeDashoffset: 0,
+                    ease: "none",
+                    scrollTrigger: {
+                        trigger: mainElement,
+                        start: "top top",
+                        end: "bottom bottom",
+                        scrub: 0.5
+                    }
+                });
+
+                // Animate the background stem color to become visible after hero
+                gsap.to("#stem-path", {
+                    stroke: "#E5E7EB", // Lighter, visible color
+                    scrollTrigger: {
+                        trigger: "#about-section", // The first light section
+                        start: "top 85%",
+                        end: "top 70%",
+                        scrub: 0.5
+                    }
+                });
+            }
+
+            // --- Flower Animation ---
+            gsap.set("#lotus-flower", { y: 700, scale: 0.5, transformOrigin: "bottom center" });
+            gsap.set("#petal-front-1", { transformOrigin: "bottom center", rotation: 20, scaleY: 1.5 });
+            gsap.set("#petal-front-2", { transformOrigin: "bottom center", rotation: 0, scaleY: 1.5 });
+            gsap.set("#petal-front-3", { transformOrigin: "bottom center", rotation: -20, scaleY: 1.5 });
+            gsap.set("#petal-back-1, #petal-back-2, #petal-back-3", { transformOrigin: "bottom center", scale: 0, opacity: 0 });
+            gsap.set("#petal-center", { scale: 0, transformOrigin: "center center" });
+
+            const riseTl = gsap.timeline({
+                scrollTrigger: {
+                    trigger: "main",
+                    start: "top bottom",
+                    end: "top top",
+                    scrub: 1,
+                }
+            });
+            riseTl.to("#lotus-flower", { y: 200, ease: "power1.inOut" });
+
+            const bloomTl = gsap.timeline({
+                scrollTrigger: {
+                    trigger: "#about-section",
+                    start: "top 80%",
+                    end: "center 60%",
+                    scrub: 1.5,
+                }
+            });
+            bloomTl.to("#petal-front-1", { rotation: 0, scaleY: 1, ease: "power2.out" })
+                .to("#petal-front-3", { rotation: 0, scaleY: 1, ease: "power2.out" }, "<")
+                .to("#petal-front-2", { scaleY: 1, ease: "power2.out" }, "<")
+                .to("#petal-back-1", { rotation: 0, scale: 1, opacity: 0.5, ease: "power2.out" }, "-=0.2")
+                .to("#petal-back-2", { rotation: 120, scale: 1, opacity: 0.5, ease: "power2.out" }, "<")
+                .to("#petal-back-3", { rotation: 240, scale: 1, opacity: 0.5, ease: "power2.out" }, "<")
+                .to("#petal-center", { scale: 1, ease: "elastic.out(1, 0.8)" }, ">-0.2");
+
+
+            // Animate sections on scroll
+            const sections = ['#about-section', '#leadership-section', '#ventures-section', '#contact-section'];
+            sections.forEach(selector => {
+                const section = document.querySelector(selector);
+                if (section) {
+                    gsap.from(section, { 
+                        scrollTrigger: { trigger: section, start: "top 85%", toggleActions: "play none none none" }, 
+                        opacity: 0, 
+                        y: 50, 
+                        duration: 1, 
+                        ease: "power2.out" 
+                    });
+                }
+            });
+            
+            // NOTE: Animations for venture cards have been removed to ensure visibility.
+
+            // Form submission simulation
+            const contactForm = document.getElementById('contact-form');
+            if (contactForm) {
+                const successMessage = document.getElementById('success-message');
+                contactForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    if (successMessage) {
+                        successMessage.textContent = 'Thank you for your message! We will be in touch soon.';
+                        successMessage.style.display = 'block';
+                    }
+                    contactForm.reset();
+                    setTimeout(() => { if (successMessage) { successMessage.style.display = 'none'; } }, 5000);
+                });
+            }
+        });
+    </script>
+</body>
+</html>
+

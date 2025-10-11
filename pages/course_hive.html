@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Course: The Listening Hive Masterclass</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Lora:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'saffire-gold': '#FBBF24',
+                        'soft-terracotta': '#F3E9E2',
+                    },
+                    fontFamily: {
+                        'sans': ['Inter', 'sans-serif'],
+                        'serif': ['Lora', 'serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #FDFBF8;
+            color: #334155;
+            padding-top: 80px; /* Added padding for fixed header */
+        }
+        h1, h2, h3, h4, h5 {
+            font-family: 'Lora', serif;
+            color: #111827;
+        }
+        .header-scrolled {
+            background-color: rgba(253, 251, 248, 0.8);
+            border-bottom-width: 1px;
+            border-color: #e7e5e4;
+            backdrop-filter: blur(16px);
+            box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+        }
+        .header-scrolled .brand-text {
+            color: #111827;
+        }
+        .icon-lotus { 
+            display: inline-block;
+            width: 1.25em;
+            height: 1.25em;
+            background-color: currentColor;
+            clip-path: path('M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.16 2.54 7.68 6.08 9.13C9.28 21.6 10.6 22 12 22s2.72-.4 3.92-.87C19.46 19.68 22 16.16 22 12zM12 4c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2zm0 16c-3.31 0-6-2.69-6-6s2.69-6 6-6 6 2.69 6 6-2.69 6-6 6z'); 
+            transform: scale(0.06) translate(-200px, -200px); 
+        }
+        .prose strong {
+            font-family: 'Lora', serif;
+            font-weight: 600;
+            color: #1e3a8a; /* A deep blue for emphasis */
+        }
+        .module-item .indicator {
+            transition: transform 0.3s ease-in-out;
+        }
+        .module-item.expanded .indicator {
+            transform: rotate(180deg);
+        }
+        .lesson-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-in-out, padding 0.5s ease-in-out;
+        }
+        .module-item.expanded .lesson-content {
+            max-height: 100rem; /* Large value to accommodate content */
+            padding-top: 1.5rem;
+            padding-bottom: 1.5rem;
+        }
+    </style>
+</head>
+<body class="antialiased">
+    <header id="main-header" class="fixed top-0 left-0 right-0 z-50 header-scrolled">
+        <div class="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="saffire.html" class="flex items-center space-x-3">
+                 <span class="icon-lotus text-pink-500 text-3xl"></span>
+                 <span class="font-serif text-2xl font-bold brand-text">Saffire</span>
+                 <span class="font-sans text-sm text-slate-500 ml-2">by LOTUS Nexus</span>
+            </a>
+            <a href="lila_farm.html" class="bg-blue-600 text-white font-semibold px-5 py-2.5 rounded-lg shadow-lg hover:bg-blue-700 active:scale-95 transition-all duration-200">
+                See it in Action at Lila Farm
+            </a>
+        </div>
+    </header>
+
+    <div class="p-4 sm:p-6 lg:p-8">
+        <div class="max-w-4xl mx-auto">
+            <header class="text-center py-12">
+                <a href="online_courses.html" class="text-blue-600 hover:underline font-semibold mb-4 inline-block">&larr; Back to All Courses</a>
+                <h1 class="text-5xl sm:text-6xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-amber-500 to-yellow-500 tracking-tight">
+                    The Listening Hive
+                </h1>
+                <p class="mt-4 text-lg sm:text-xl text-slate-600 max-w-2xl mx-auto">An AI-Powered Beekeeping Masterclass</p>
+            </header>
+
+            <main>
+                <div class="bg-white p-8 sm:p-12 rounded-2xl shadow-lg border border-slate-200/80">
+                    <div class="grid md:grid-cols-2 gap-8 items-center">
+                        <div>
+                            <h2 class="text-3xl font-bold mb-4">Go Beyond Beekeeping. Become a Data-Informed Steward of the Hive.</h2>
+                            <p class="text-slate-600 leading-relaxed mb-6">This masterclass teaches a revolutionary, hands-off approach to beekeeping. Learn to use in-hive sensors to understand colony health, predict problems like swarms and pests, and support your bees with minimal intrusion. It's the ultimate expression of our "Respect for Life" principle.</p>
+                            <a href="#" class="bg-saffire-gold text-slate-900 font-bold px-8 py-4 rounded-lg inline-block hover:opacity-90 transition-opacity text-lg">Enroll Now (Coming Soon)</a>
+                        </div>
+                        <div>
+                            <img src="https://images.unsplash.com/photo-1587773213592-3f8952391630?q=80&w=2070&auto=format&fit=crop" alt="A beekeeper gently inspecting a frame from a beehive." class="rounded-lg shadow-md w-full h-auto object-cover">
+                        </div>
+                    </div>
+
+                    <div class="mt-16">
+                        <h3 class="text-2xl font-bold text-center mb-8">Course Curriculum</h3>
+                        <div class="space-y-4" id="curriculum-accordion">
+                            <!-- Module 1 -->
+                            <div class="module-item bg-soft-terracotta/50 border border-slate-200 rounded-lg">
+                                <button class="w-full flex justify-between items-center text-left p-6">
+                                    <span class="text-lg font-bold">Module 1: The Soul of the Superorganism</span>
+                                    <span class="indicator text-2xl font-light">&darr;</span>
+                                </button>
+                                <div class="lesson-content px-6">
+                                    <div class="border-t border-slate-300 pt-6">
+                                        <p class="text-slate-600 mb-4">Before we install any technology, we must first understand the honeybee colony as a single, intelligent entity. This module explores the profound social structure, communication, and collective wisdom of the hive.</p>
+                                        <h5 class="font-bold text-lg mb-2">Lessons Include:</h5>
+                                        <ul class="list-disc list-inside space-y-1 text-slate-600">
+                                            <li>Understanding the Colony as One Being</li>
+                                            <li>The Language of the Bees: The Waggle Dance & Pheromones</li>
+                                            <li>The Annual Cycle of a Healthy Hive</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                             <!-- Module 2 -->
+                            <div class="module-item bg-soft-terracotta/50 border border-slate-200 rounded-lg">
+                                <button class="w-full flex justify-between items-center text-left p-6">
+                                    <span class="text-lg font-bold">Module 2: Beekeeping Essentials (The "Tradecraft")</span>
+                                    <span class="indicator text-2xl font-light">&darr;</span>
+                                </button>
+                                <div class="lesson-content px-6">
+                                     <div class="border-t border-slate-300 pt-6">
+                                        <p class="text-slate-600 mb-4">Learn the time-tested, hands-on skills of beekeeping. This module covers the foundational "tradecraft" needed to start and maintain a healthy apiary, from choosing your site to your first inspection.</p>
+                                         <h5 class="font-bold text-lg mb-2">Lessons Include:</h5>
+                                        <ul class="list-disc list-inside space-y-1 text-slate-600">
+                                            <li>Setting Up Your First Hives</li>
+                                            <li>How to Conduct a Calm, Respectful Hive Inspection</li>
+                                            <li>Seasonal Management for Healthy Colonies</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Module 3 -->
+                             <div class="module-item bg-soft-terracotta/50 border border-slate-200 rounded-lg">
+                                <button class="w-full flex justify-between items-center text-left p-6">
+                                    <span class="text-lg font-bold">Module 3: The Technology of the Hive</span>
+                                    <span class="indicator text-2xl font-light">&darr;</span>
+                                </button>
+                                <div class="lesson-content px-6">
+                                     <div class="border-t border-slate-300 pt-6">
+                                        <p class="text-slate-600 mb-4">A practical guide to the "Strategy" of listening. This module covers the selection, installation, and use of in-hive sensors for non-invasive monitoring.</p>
+                                         <h5 class="font-bold text-lg mb-2">Lessons Include:</h5>
+                                        <ul class="list-disc list-inside space-y-1 text-slate-600">
+                                            <li>Choosing Your In-Hive Sensors (Temperature, Humidity, Acoustics)</li>
+                                            <li>Installation Without Stressing the Colony</li>
+                                            <li>Connecting Your Hive to a Data Dashboard</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Module 4 -->
+                             <div class="module-item bg-soft-terracotta/50 border border-slate-200 rounded-lg">
+                                <button class="w-full flex justify-between items-center text-left p-6">
+                                    <span class="text-lg font-bold">Module 4: Translating the Whispers</span>
+                                    <span class="indicator text-2xl font-light">&darr;</span>
+                                </button>
+                                <div class="lesson-content px-6">
+                                     <div class="border-t border-slate-300 pt-6">
+                                        <p class="text-slate-600 mb-4">This is where the LOTUS philosophy comes to life. We show you how our AI interprets the sensor data to give you actionable insights, allowing you to become a more proactive and less intrusive beekeeper.</p>
+                                         <h5 class="font-bold text-lg mb-2">Lessons Include:</h5>
+                                        <ul class="list-disc list-inside space-y-1 text-slate-600">
+                                            <li>Reading the Acoustic Signature: How to Predict a Swarm</li>
+                                            <li>Temperature Anomalies as Early Warnings for Pests</li>
+                                            <li>Using Data to Know When (and When Not) to Inspect</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Module 5 -->
+                             <div class="module-item bg-soft-terracotta/50 border border-slate-200 rounded-lg">
+                                <button class="w-full flex justify-between items-center text-left p-6">
+                                    <span class="text-lg font-bold">Module 5: The Artisanal Harvest</span>
+                                    <span class="indicator text-2xl font-light">&darr;</span>
+                                </button>
+                                <div class="lesson-content px-6">
+                                     <div class="border-t border-slate-300 pt-6">
+                                        <p class="text-slate-600 mb-4">The sweet reward of respectful stewardship. Learn how this data-informed, low-stress approach to beekeeping leads to healthier, more productive colonies and a higher-quality honey harvest.</p>
+                                         <h5 class="font-bold text-lg mb-2">Lessons Include:</h5>
+                                        <ul class="list-disc list-inside space-y-1 text-slate-600">
+                                            <li>Knowing When to Harvest Without Harming Winter Stores</li>
+                                            <li>The Art of Raw, Unfiltered Honey Extraction</li>
+                                            <li>From the Hive to the Jar: Bottling Your Artisanal Honey</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+
+            <footer class="text-center mt-16 pt-12 border-t border-slate-200">
+                 <p class="text-slate-500">&copy; 2025 LOTUS Nexus. All Rights Reserved.</p>
+            </footer>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const accordionItems = document.querySelectorAll('.module-item');
+
+            accordionItems.forEach(item => {
+                const button = item.querySelector('button');
+                button.addEventListener('click', () => {
+                    accordionItems.forEach(otherItem => {
+                        if (otherItem !== item) {
+                            otherItem.classList.remove('expanded');
+                        }
+                    });
+                    item.classList.toggle('expanded');
+                });
+            });
+        });
+    </script>
+</body>
+</html>
+

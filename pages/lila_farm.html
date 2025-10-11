@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lila Farm | Powered by Saffire from LOTUS Nexus</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Lora:wght@400;600&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'saffire-gold': '#FBBF24',
+                        'soft-terracotta': '#F3E9E2',
+                    },
+                    fontFamily: {
+                        'sans': ['Inter', 'sans-serif'],
+                        'serif': ['Lora', 'serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #FDFBF8;
+            color: #334155;
+            background-image: url("data:image/svg+xml,%3Csvg width='6' height='6' viewBox='0 0 6' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%239C92AC' fill-opacity='0.05' fill-rule='evenodd'%3E%3Cpath d='M5 0h1L0 6V5zM6 5v1H5z'/%3E%3C/g%3E%3C/svg%3E");
+        }
+        .mobile-menu-open {
+            overflow: hidden;
+        }
+        h1, h2, h3 {
+            font-family: 'Lora', serif;
+            color: #111827;
+        }
+        #main-header {
+            transition: all 0.3s ease-in-out;
+        }
+        .header-scrolled {
+            background-color: rgba(253, 251, 248, 0.9);
+            border-bottom-width: 1px;
+            border-color: #e7e5e4;
+            backdrop-filter: blur(16px);
+            box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+        }
+        .header-scrolled .brand-text, .header-scrolled .nav-link, .header-scrolled #mobile-menu-button {
+            color: #111827;
+        }
+        /* FIX: Added subtle drop shadow to scrolled header logo for better visibility */
+        .header-scrolled #header-logo {
+            filter: drop-shadow(0 1px 1px rgb(0 0 0 / 0.05));
+        }
+        .header-scrolled .nav-pill:hover {
+            color: #3b82f6;
+        }
+        .header-scrolled .nav-pill::before {
+            background-color: #e0e7ff;
+        }
+
+        .details-container {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.6s ease-in-out;
+        }
+        .details-container.expanded {
+            max-height: 100rem;
+        }
+        
+        #journey-tabs button {
+            border-color: transparent;
+        }
+        #journey-tabs button.active-tab {
+            border-color: #3b82f6;
+            color: #3b82f6;
+        }
+        #journey-tab-content > div {
+            display: none;
+        }
+        #journey-tab-content > div.active-content {
+            display: block;
+        }
+        
+        #mobile-menu {
+            transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+        }
+        .mega-menu {
+            opacity: 0;
+            pointer-events: none;
+            transform: translateY(10px);
+            transition: all 0.3s ease-in-out;
+        }
+        .group:hover .mega-menu {
+            opacity: 1;
+            pointer-events: auto;
+            transform: translateY(0);
+        }
+
+        .nav-pill {
+            position: relative;
+            padding: 0.5rem 1rem;
+            transition: color 0.3s ease-in-out;
+            z-index: 1;
+        }
+        .nav-pill::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 9999px; /* pill shape */
+            transform: scale(0);
+            transition: transform 0.3s ease-in-out;
+            z-index: -1;
+        }
+        .nav-pill:hover::before {
+            transform: scale(1);
+        }
+        #main-header:not(.header-scrolled) .nav-pill::before {
+            background-color: rgba(255, 255, 255, 0.15);
+        }
+        #main-header:not(.header-scrolled) .nav-pill:hover {
+            color: #ffffff;
+        }
+        #pasture-health-circle {
+            transform: rotate(-90deg);
+        }
+        .flip-card-inner {
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+        }
+        .flip-card.flipped .flip-card-inner {
+            transform: rotateY(180deg);
+        }
+        .flip-card-front, .flip-card-back {
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+        }
+        .flip-card-back {
+            transform: rotateY(180deg);
+        }
+    </style>
+</head>
+<body class="antialiased">
+    <header id="main-header" class="fixed top-0 left-0 right-0 z-50">
+        <div class="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="#" class="flex items-center space-x-3">
+                <!-- FIX: Added ID to target with CSS -->
+                <svg id="header-logo" class="w-10 h-10" viewBox="-100 -100 200 200" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                      <path id="petal-back" d="M0 0 C -30 -30 -10 -60 0 -80 C 10 -60 30 -30 0 0" />
+                      <path id="petal-front" d="M0 0 C -20 -25 -5 -45 0 -60 C 5 -45 20 -25 0 0" />
+                    </defs>
+                    <g fill="#F472B6" opacity="0.8">
+                      <use href="#petal-back" transform="rotate(0)" />
+                      <use href="#petal-back" transform="rotate(45)" />
+                      <use href="#petal-back" transform="rotate(90)" />
+                      <use href="#petal-back" transform="rotate(135)" />
+                      <use href="#petal-back" transform="rotate(180)" />
+                      <use href="#petal-back" transform="rotate(225)" />
+                      <use href="#petal-back" transform="rotate(270)" />
+                      <use href="#petal-back" transform="rotate(315)" />
+                    </g>
+                    <g fill="#EC4899">
+                      <use href="#petal-front" transform="rotate(22.5)" />
+                      <use href="#petal-front" transform="rotate(67.5)" />
+                      <use href="#petal-front" transform="rotate(112.5)" />
+                      <use href="#petal-front" transform="rotate(157.5)" />
+                      <use href="#petal-front" transform="rotate(202.5)" />
+                      <use href="#petal-front" transform="rotate(247.5)" />
+                      <use href="#petal-front" transform="rotate(292.5)" />
+                      <use href="#petal-front" transform="rotate(337.5)" />
+                    </g>
+                    <g>
+                        <circle cx="0" cy="0" r="15" fill="#FBBF24" />
+                        <circle cx="0" cy="0" r="10" fill="#FDE047" opacity="0.7"/>
+                    </g>
+                </svg>
+                <span class="font-serif text-2xl font-bold brand-text text-white">Lila Farm</span>
+            </a>
+             <nav class="hidden md:flex items-center space-x-1">
+                <a href="#philosophy" class="text-white font-semibold nav-link nav-pill">Philosophy</a>
+                <a href="#technology" class="text-white font-semibold nav-link nav-pill">Systems</a>
+                <a href="#data-portal" class="text-white font-semibold nav-link nav-pill">Data Portal</a>
+                <div class="relative group">
+                    <a href="#offerings" class="text-white font-semibold nav-link nav-pill inline-block">Offerings</a>
+                    <div class="mega-menu absolute top-full left-1/2 -translate-x-1/2 pt-4">
+                        <div class="bg-white rounded-lg shadow-xl p-6 grid grid-cols-2 gap-6 w-[36rem]">
+                            <a href="#offerings" class="block group/item hover:bg-slate-50 p-4 rounded-md transition-colors">
+                                <img src="https://images.unsplash.com/photo-1594969238380-04a43452a51a?q=80&w=400&auto=format&fit=crop" class="rounded-md mb-3" alt="Brahman Cattle" onerror="this.onerror=null;this.src='https://placehold.co/400x300/eeeeee/cccccc?text=Image+Not+Found';"/>
+                                <h4 class="font-bold text-slate-800 group-hover/item:text-blue-600">Our Conservation Herd</h4>
+                            </a>
+                             <a href="#offerings" class="block group/item hover:bg-slate-50 p-4 rounded-md transition-colors">
+                                <img src="https://images.unsplash.com/photo-1620912189879-4a949117b8f9?q=80&w=400&auto=format&fit=crop" class="rounded-md mb-3" alt="Farm Stand" onerror="this.onerror=null;this.src='https://placehold.co/400x300/eeeeee/cccccc?text=Image+Not+Found';"/>
+                                <h4 class="font-bold text-slate-800 group-hover/item:text-blue-600">The Farm Stand</h4>
+                            </a>
+                             <a href="#offerings" class="block group/item hover:bg-slate-50 p-4 rounded-md transition-colors">
+                                <img src="https://images.unsplash.com/photo-1598965675045-a4e9a04a5286?q=80&w=400&auto=format&fit=crop" class="rounded-md mb-3" alt="Eggs" onerror="this.onerror=null;this.src='https://placehold.co/400x300/eeeeee/cccccc?text=Image+Not+Found';"/>
+                                <h4 class="font-bold text-slate-800 group-hover/item:text-blue-600">Pasture-Raised Eggs</h4>
+                            </a>
+                             <a href="#offerings" class="block group/item hover:bg-slate-50 p-4 rounded-md transition-colors">
+                                <img src="https://images.unsplash.com/photo-1558328728-086d5d1cc84c?q=80&w=400&auto=format&fit=crop" class="rounded-md mb-3" alt="Honey" onerror="this.onerror=null;this.src='https://placehold.co/400x300/eeeeee/cccccc?text=Image+Not+Found';"/>
+                                <h4 class="font-bold text-slate-800 group-hover/item:text-blue-600">Artisanal Honey</h4>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <a href="#community-roots" class="text-white font-semibold nav-link nav-pill">Community</a>
+                 <a href="#team" class="text-white font-semibold nav-link nav-pill">Team</a>
+                <a href="#journey-section" class="text-white font-semibold nav-link nav-pill">Journey</a>
+                <a href="#heart-section" class="text-white font-semibold nav-link nav-pill">Our Heart</a>
+                <a href="#connect" class="text-white font-semibold nav-link nav-pill">Connect</a>
+            </nav>
+            <button id="mobile-menu-button" class="md:hidden text-white" aria-label="Open menu">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+            </button>
+        </div>
+    </header>
+
+    <div id="mobile-menu" class="hidden fixed inset-0 bg-slate-900/95 backdrop-blur-sm z-40 flex items-center justify-center transform -translate-y-full">
+        <button id="close-menu-button" class="absolute top-6 right-6 text-white" aria-label="Close menu">
+             <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+        </button>
+        <nav class="flex flex-col items-center space-y-8">
+            <a href="#philosophy" class="text-white text-2xl font-semibold">Philosophy</a>
+            <a href="#technology" class="text-white text-2xl font-semibold">Systems</a>
+            <a href="#data-portal" class="text-white text-2xl font-semibold">Data Portal</a>
+            <a href="#offerings" class="text-white text-2xl font-semibold">Offerings</a>
+            <a href="#community-roots" class="text-white text-2xl font-semibold">Community</a>
+            <a href="#team" class="text-white text-2xl font-semibold">Team</a>
+            <a href="#journey-section" class="text-white text-2xl font-semibold">Journey</a>
+            <a href="#heart-section" class="text-white text-2xl font-semibold">Our Heart</a>
+            <a href="#connect" class="text-white text-2xl font-semibold">Connect</a>
+        </nav>
+    </div>
+
+    <section id="unification-section" class="min-h-screen flex flex-col justify-center text-center relative bg-slate-900 text-white overflow-hidden py-16">
+        <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_rgba(236,72,153,0.15)_0%,_rgba(236,72,153,0)_50%)]"></div>
+        <div class="container mx-auto px-6 relative z-10">
+            <div>
+                <h1 class="text-5xl sm:text-7xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-pink-500 to-indigo-500 tracking-tight mb-4">
+                    Lila Farm
+                </h1>
+                <h2 class="text-2xl font-semibold text-slate-200 mt-2">Regenerative Farming, Intelligently Guided.</h2>
+                <p class="mt-4 text-lg sm:text-xl text-slate-300 max-w-3xl mx-auto">The home of Saffire, a revolutionary agricultural system from LOTUS Nexus that unites traditional wisdom with AI-powered empathy to listen more deeply and respond more gently.</p>
+            </div>
+        </div>
+    </section>
+
+    <main id="philosophy" class="py-12 md:py-16">
+        <div class="w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div id="welcome-section" class="bg-soft-terracotta p-8 sm:p-12 rounded-2xl shadow-lg relative z-10">
+                <div class="text-center max-w-3xl mx-auto">
+                    <h2 class="text-3xl font-bold mb-4">The SAFFIRE Philosophy</h2>
+                    <p class="text-slate-700 leading-relaxed">SAFFIRE is our guiding framework. It stands for Sowing And Fostering Fruitful Interactions, Respecting Everything. Explore each core principle below.</p>
+                </div>
+                <div id="visual-nav-container" class="mt-12 grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- FIX: Added image fallback handlers -->
+                    <a href="#content-display" class="nav-card block group" data-content="sowing-fostering"><div class="overflow-hidden rounded-lg shadow-md"><img src="https://images.unsplash.com/photo-1523348837708-15d4a09cfac2?q=80&w=2070&auto=format&fit=crop" alt="Hands planting a seedling in rich soil" class="w-full h-auto object-cover aspect-[4/3]" onerror="this.onerror=null;this.src='https://placehold.co/800x600/eeeeee/cccccc?text=Image+Not+Found';"/></div><h3 class="mt-4 text-xl font-bold text-center text-slate-800 group-hover:text-blue-600 transition-colors">Sowing & Fostering</h3></a>
+                    <a href="#content-display" class="nav-card block group" data-content="fruitful-interactions"><div class="overflow-hidden rounded-lg shadow-md"><img src="../assets/images/Bee Collecting Nectar.jpg" alt="A bee pollinating a vibrant flower" class="w-full h-auto object-cover aspect-[4/3]" onerror="this.onerror=null;this.src='https://placehold.co/800x600/eeeeee/cccccc?text=Image+Not+Found';"/></div><h3 class="mt-4 text-xl font-bold text-center text-slate-800 group-hover:text-blue-600 transition-colors">Fruitful Interactions</h3></a>
+                    <a href="#content-display" class="nav-card block group sm:col-span-2 lg:col-span-1" data-content="respecting-everything"><div class="overflow-hidden rounded-lg shadow-md"><img src="../assets/images/EntranceToFarm.jpeg" alt="A thriving, diverse landscape at sunset" class="w-full h-auto object-cover aspect-[4/3]" onerror="this.onerror=null;this.src='https://placehold.co/800x600/eeeeee/cccccc?text=Image+Not+Found';"/></div><h3 class="mt-4 text-xl font-bold text-center text-slate-800 group-hover:text-blue-600 transition-colors">Respecting Everything</h3></a>
+                </div>
+                <div id="content-display" class="mt-12"></div>
+            </div>
+        </div>
+    </main>
+    
+    <section id="technology" class="py-12 md:py-16 bg-white">
+        <div class="w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+             <div class="text-center mb-12"><h2 class="text-3xl font-bold">The Saffire Systems at Lila Farm</h2><p class="mt-2 text-slate-600 max-w-2xl mx-auto">These are the conceptual systems being developed by LOTUS Nexus. Our vision is to create tools that will allow us to listen to the land with a new level of empathy and precision.</p></div>
+            <div class="grid md:grid-cols-2 gap-8">
+                 <div class="bg-white p-6 rounded-2xl shadow-lg border border-slate-200/80 flex items-start space-x-6"><div class="flex-shrink-0 h-16 w-16 rounded-lg bg-blue-100 text-blue-600 flex items-center justify-center"><svg class="w-9 h-9" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h5l4-8 4 16 5-8h5"/></svg></div><div><h3 class="text-xl font-bold text-blue-600 mb-1">Smart Herd Management</h3><p class="text-slate-600 text-sm">Our Conservation Herd will wear smart tags that provide biometric and GPS data to suggest optimal grazing rotations.</p></div></div>
+                 <div class="bg-white p-6 rounded-2xl shadow-lg border border-slate-200/80 flex items-start space-x-6"><div class="flex-shrink-0 h-16 w-16 rounded-lg bg-green-100 text-green-600 flex items-center justify-center"><svg class="w-8 h-8" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M14.5 9c-1.5 2.5-2.5 4.5-2.5 6"/><path d="M9.5 9c1.5 2.5 2.5 4.5 2.5 6"/><path d="M12 15V8"/></svg></div><div><h3 class="text-xl font-bold text-green-600 mb-1">The Synapse Greenhouse</h3><p class="text-slate-600 text-sm">Our greenhouse's AI will orchestrate a multi-layered climate to grow high-value crops with unparalleled precision.</p></div></div>
+                 <div class="bg-white p-6 rounded-2xl shadow-lg border border-slate-200/80 flex items-start space-x-6"><div class="flex-shrink-0 h-16 w-16 rounded-lg bg-red-100 text-red-600 flex items-center justify-center"><svg class="w-8 h-8" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10" /><circle cx="12" cy="12" r="4" /><path d="M12 2v2"/><path d="M12 20v2"/><path d="M5.636 5.636l1.414 1.414"/><path d="M16.95 16.95l1.414 1.414"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="M5.636 18.364l1.414-1.414"/><path d="M16.95 7.05l1.414-1.414"/></svg></div><div><h3 class="text-xl font-bold text-red-600 mb-1">The Sunrise Coop</h3><p class="text-slate-600 text-sm">A solar-powered, automated coop that will respect our chickens' natural rhythms and be key to our nutrient cycle.</p></div></div>
+                 <div class="bg-white p-6 rounded-2xl shadow-lg border border-slate-200/80 flex items-start space-x-6"><div class="flex-shrink-0 h-16 w-16 rounded-lg bg-amber-100 text-amber-600 flex items-center justify-center"><svg class="w-8 h-8" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.16 7.84a1.5 1.5 0 00-1.02-1.02L13.5 4.5a1.5 1.5 0 00-1.42 0l-5.64 2.32a1.5 1.5 0 00-1.02 1.02L3.84 13.5a1.5 1.5 0 000 1.42l2.32 5.64a1.5 1.5 0 001.02 1.02l5.64 2.32a1.5 1.5 0 001.42 0l5.64-2.32a1.5 1.5 0 001.02-1.02l2.32-5.64a1.5 1.5 0 000-1.42z"/><path d="M10 10h4v4h-4z"/><path d="M12 14v2"/><path d="M12 10V8"/><path d="M14 12h2"/><path d="M10 12H8"/></svg></div><div><h3 class="text-xl font-bold text-amber-600 mb-1">AI-Powered Apiary</h3><p class="text-slate-600 text-sm">In-hive sensors will monitor our bee colonies for health, allowing for non-invasive, respectful beekeeping.</p></div></div>
+                 <div class="bg-white p-6 rounded-2xl shadow-lg border border-slate-200/80 flex items-start space-x-6 md:col-span-2 md:max-w-xl md:mx-auto w-full"><div class="flex-shrink-0 h-16 w-16 rounded-lg bg-indigo-100 text-indigo-600 flex items-center justify-center"><svg class="w-8 h-8" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10" /><circle cx="12" cy="12" r="3" /></svg></div><div><h3 class="text-xl font-bold text-indigo-600 mb-1">The Sentinel Drone</h3><p class="text-slate-600 text-sm">Our watchful guardian. This intelligent drone will use multispectral imaging and AI analysis to create health maps of our pastures, enabling precision agriculture.</p></div></div>
+            </div>
+        </div>
+    </section>
+    
+    <section id="data-portal" class="py-12 md:py-16 bg-slate-50">
+        <div class="w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold">The Saffire Open-Data Portal</h2>
+                <p class="mt-2 text-slate-600 max-w-2xl mx-auto">This is our vision for transparency in action. As part of our commitment to our community, we plan to share our journey and our data. The following is a conceptual preview of the live data we aim to track to ensure the well-being of our farm's ecosystem.</p>
+            </div>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="bg-white p-6 rounded-2xl shadow-lg border border-slate-200/80 [perspective:1000px] flip-card">
+                    <div class="flip-card-inner relative w-full h-[320px]">
+                        <div class="flip-card-front absolute w-full h-full p-6 flex flex-col">
+                            <h4 class="font-bold text-lg mb-2 text-blue-600">Herd Wellness</h4>
+                            <div class="text-center">
+                                <svg id="activity-clock" class="w-32 h-32 mx-auto" viewBox="0 0 100 100"></svg>
+                                <p class="text-xs text-slate-500 mt-2">24-Hour Activity Cycle</p>
+                            </div>
+                            <div class="mt-4 space-y-2 text-sm">
+                                <div class="flex justify-between"><span>Sickness Detection</span><span class="font-semibold text-green-600">Normal</span></div>
+                                <div class="flex justify-between"><span>Lameness Detection</span><span class="font-semibold text-green-600">Normal</span></div>
+                                <div class="flex justify-between"><span>Calving Onset</span><span class="font-semibold text-slate-600">No Signs</span></div>
+                            </div>
+                            <div class="mt-auto pt-2 border-t border-slate-200">
+                                <p class="text-sm text-center"><strong>Estrus Alerts:</strong> <span class="text-orange-600 font-semibold">"Clover"</span></p>
+                            </div>
+                            <button class="herd-location-btn text-xs text-blue-500 hover:underline mt-2">View Live Location</button>
+                        </div>
+                        <div class="flip-card-back absolute w-full h-full bg-slate-100 rounded-xl p-4 flex flex-col">
+                            <h5 class="font-bold text-center text-slate-700">Herd Location</h5>
+                            <div class="flex-grow bg-green-100 my-2 rounded-md relative overflow-hidden">
+                                <img src="https://placehold.co/400x300/a3be8c/FFFFFF?text=Pasture+C" class="absolute w-full h-full object-cover opacity-50" alt="Map showing Pasture C">
+                                <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+                                    <span class="block w-3 h-3 bg-blue-500 rounded-full animate-ping"></span>
+                                </div>
+                            </div>
+                            <button class="herd-location-btn text-xs text-blue-500 hover:underline">View Health Stats</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-white p-6 rounded-2xl shadow-lg border border-slate-200/80 flex flex-col items-center">
+                    <h4 class="font-bold text-lg mb-4 text-green-600">Pasture Health</h4>
+                    <div class="relative w-40 h-40">
+                        <svg class="w-full h-full" viewBox="0 0 36 36">
+                            <path class="text-slate-200" stroke-width="3" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                            <path id="pasture-health-circle" class="text-green-500" stroke-width="3" fill="none" stroke-dasharray="100, 100" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                        </svg>
+                        <div id="pasture-health-text" class="absolute inset-0 flex items-center justify-center text-3xl font-bold" aria-live="polite"></div>
+                    </div>
+                    <p class="text-sm text-slate-500 mt-4 text-center">Represents the overall health of the pasture, synthesizing data on plant vigor (NDVI), soil moisture, and nutrient density. Higher percentages indicate a thriving, regenerative ecosystem.</p>
+                </div>
+                <div class="bg-white p-6 rounded-2xl shadow-lg border border-slate-200/80">
+                    <h4 class="font-bold text-lg mb-2 text-purple-600">Weed Pressure & Soil Health</h4>
+                    <div class="text-center">
+                        <div class="inline-block bg-purple-100 rounded-full p-3 my-2">
+                           <svg class="w-10 h-10 text-purple-600" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke-width="1.5" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 21V12m0 0V3m0 9h9m-9 0H3m5.9-6.9L7.1 7.1m9.8 9.8l-1.8-1.8M17 7.1l-1.8 1.8M7.1 17l1.8-1.8" />
+                            </svg>
+                        </div>
+                        <p class="text-sm font-semibold">High concentration of <span class="font-bold">Common Ragweed</span> detected.</p>
+                        <p class="text-xs text-slate-500 mt-1">This bio-indicator suggests compacted soil with low potassium.</p>
+                    </div>
+                    <div class="mt-4 pt-4 border-t border-slate-200">
+                        <p class="text-sm font-semibold text-slate-700 mb-2 text-center">Our Regenerative Strategy:</p>
+                        <ul class="space-y-2 text-sm">
+                            <li class="flex items-center"><span class="flex-shrink-0 w-5 h-5 bg-green-100 text-green-600 rounded-full flex items-center justify-center mr-2" aria-hidden="true">✓</span>Mow high to prevent seed spread.</li>
+                            <li class="flex items-center"><span class="flex-shrink-0 w-5 h-5 bg-green-100 text-green-600 rounded-full flex items-center justify-center mr-2" aria-hidden="true">✓</span>Apply potassium-rich compost.</li>
+                            <li class="flex items-center"><span class="flex-shrink-0 w-5 h-5 bg-green-100 text-green-600 rounded-full flex items-center justify-center mr-2" aria-hidden="true">✓</span>Overseed with competitive cover crops.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="offerings" class="py-12 md:py-16 bg-[#FDFBF8]">
+         <div class="w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-bold">Our Offerings</h2>
+                <h3 class="text-xl font-semibold text-slate-500 mt-2">A preview of our offerings, coming in 2026.</h3>
+            </div>
+
+            
+
+            <div class="space-y-24">
+                 <div class="relative grid md:grid-cols-2 gap-8 items-center"><div class="md:order-2 relative md:pl-12"><div class="absolute top-0 left-0 w-full h-full rounded-2xl bg-green-50 transform -rotate-3"></div><video src="../assets/images/CowsWalkingTogether.mp4" autoplay muted loop playsinline width="640" height="360" class="relative rounded-lg shadow-lg w-full h-auto object-cover z-10">
+                                Your browser does not support the video tag.
+                            </video></div><div class="md:order-1 md:pr-8"><h3 class="text-2xl font-bold text-blue-600 mb-2">Our Conservation Herd</h3><p class="text-slate-600 mb-4">Our Brahman cattle are the heart of our regenerative grazing program. We are committed to a non-slaughter model and offer unique, guided encounters for a deeper connection with our herd and mission.</p><div class="mt-8"><h4 class="font-bold text-slate-800 mb-4 text-lg">Meet the Herd</h4><div class="grid grid-cols-3 sm:grid-cols-6 gap-4 text-center"><div><img src="https://images.unsplash.com/photo-1593361589174-4d7a16a42a42?q=80&w=2070&auto=format&fit=crop" alt="Zazu" class="w-20 h-20 rounded-full mx-auto object-cover shadow-md" onerror="this.onerror=null;this.src='https://placehold.co/80x80/eeeeee/cccccc?text=Z';"/><h5 class="mt-2 font-semibold text-sm">Zazu</h5><p class="text-xs text-slate-500">Brave & Curious</p></div><div><img src="https://images.unsplash.com/photo-1621257913878-0a2a4b87c7b8?q=80&w=1974&auto=format&fit=crop" alt="Clover" class="w-20 h-20 rounded-full mx-auto object-cover shadow-md" onerror="this.onerror=null;this.src='https://placehold.co/80x80/eeeeee/cccccc?text=C';"/><h5 class="mt-2 font-semibold text-sm">Clover</h5><p class="text-xs text-slate-500">Calm & Gentle</p></div><div><img src="https://images.unsplash.com/photo-1591176205937-54b68551b9e8?q=80&w=2070&auto=format&fit=crop" alt="Tara" class="w-20 h-20 rounded-full mx-auto object-cover shadow-md" onerror="this.onerror=null;this.src='https://placehold.co/80x80/eeeeee/cccccc?text=T';"/><h5 class="mt-2 font-semibold text-sm">Tara</h5><p class="text-xs text-slate-500">Spirited & Playful</p></div><div><img src="https://images.unsplash.com/photo-1615143398782-a5b55c765a88?q=80&w=2070&auto=format&fit=crop" alt="Aanya" class="w-20 h-20 rounded-full mx-auto object-cover shadow-md" onerror="this.onerror=null;this.src='https://placehold.co/80x80/eeeeee/cccccc?text=A';"/><h5 class="mt-2 font-semibold text-sm">Aanya</h5><p class="text-xs text-slate-500">Sweet & Shy</p></div><div><img src="https://images.unsplash.com/photo-1620834014942-ecb2b735d1ff?q=80&w=1964&auto=format&fit=crop" alt="Ruby" class="w-20 h-20 rounded-full mx-auto object-cover shadow-md" onerror="this.onerror=null;this.src='https://placehold.co/80x80/eeeeee/cccccc?text=R';"/><h5 class="mt-2 font-semibold text-sm">Ruby</h5><p class="text-xs text-slate-500">Bold & Inquisitive</p></div><div><img src="https://images.unsplash.com/photo-1570120113193-3763e1732115?q=80&w=2070&auto=format&fit=crop" alt="Zara" class="w-20 h-20 rounded-full mx-auto object-cover shadow-md" onerror="this.onerror=null;this.src='https://placehold.co/80x80/eeeeee/cccccc?text=Z';"/><h5 class="mt-2 font-semibold text-sm">Zara</h5><p class="text-xs text-slate-500">The Speckled One</p></div></div></div><button id="herd-learn-more-btn" class="text-blue-600 font-semibold hover:underline link-animated mt-8" aria-expanded="false" aria-controls="herd-details-content">Learn More About Guided Encounters</button></div></div>
+                 <div id="herd-details-content" class="details-container"><div class="bg-white p-8 rounded-2xl shadow-inner border border-slate-200/80 -mt-8"><h4 class="text-xl font-bold mb-4 text-center">The Four Pillars of Our Guided Encounters</h4><div class="grid sm:grid-cols-2 gap-8"><div><h5 class="font-semibold text-blue-600">The Story</h5><p class="text-slate-600 mt-1 text-sm">Meet Zazu, Clover, Tara, Aanya, Ruby, and Zara by name. Learn their story and vital role in regenerating our land.</p></div><div><h5 class="font-semibold text-blue-600">The Technology</h5><p class="text-slate-600 mt-1 text-sm">See our AI in action. We'll show you the smart tags the herd wears and explain how the data helps us 'listen' to their needs and the needs of the pasture.</p></div><div><h5 class="font-semibold text-blue-600">The Interaction</h5><p class="text-slate-600 mt-1 text-sm">A respectful, educational experience. Guided by our Founders, you'll learn how to approach the herd calmly for a gentle, supervised interaction on their terms.</p></div><div><h5 class="font-semibold text-blue-600">The Purpose</h5><p class="text-slate-600 mt-1 text-sm">Understand how this gentle management and our non-slaughter promise are core to our mission of 'Respect for Life.'</p></div></div></div></div>
+                 <div class="grid md:grid-cols-2 gap-8 items-center"><div class="relative md:pr-12"><div class="absolute top-0 right-0 w-full h-full rounded-2xl bg-yellow-50 transform rotate-3"></div><img src="../assets/images/Vegetables on Table.jpg" alt="A rustic and inviting on-site farm stand" class="relative rounded-lg shadow-lg w-full h-auto object-cover z-10" onerror="this.onerror=null;this.src='https://placehold.co/800x600/eeeeee/cccccc?text=Image+Not+Found';"/></div><div class="md:pl-8"> <h3 class="text-2xl font-bold text-blue-600 mb-2">The Farm Stand</h3><p class="text-slate-600 mb-4">Visit us on-site to purchase the freshest produce available. Our farm stand is the heart of our community, a place to connect directly with the source of your food.</p><a href="#connect" class="bg-saffire-gold text-slate-900 font-bold px-6 py-3 rounded-lg inline-block hover:opacity-90 transition-opacity btn-animated"><span>View Hours & Directions</span></a></div></div>
+                <div class="grid md:grid-cols-2 gap-8 items-center"><div class="md:order-2 relative md:pl-12"><div class="absolute top-0 left-0 w-full h-full rounded-2xl bg-red-50 transform -rotate-3"></div><img src="../assets/images/Eggs.jpg" alt="A basket of fresh, colorful pasture-raised eggs." class="relative rounded-lg shadow-lg w-full h-auto object-cover z-10" onerror="this.onerror=null;this.src='https://placehold.co/800x600/eeeeee/cccccc?text=Image+Not+Found';"/></div><div class="md:order-1 md:pr-8"><h3 class="text-2xl font-bold text-blue-600 mb-2">Pasture-Raised Eggs</h3><p class="text-slate-600 mb-4">From our happy flock in the Sunrise Coop. Our chickens live on pasture, resulting in eggs with deep golden yolks and incredible flavor.</p><button id="eggs-learn-more-btn" class="text-blue-600 font-semibold hover:underline link-animated" aria-expanded="false" aria-controls="eggs-details-content">Learn more about our happy hens</button></div></div>
+                <div id="eggs-details-content" class="details-container"><div class="bg-white p-8 rounded-2xl shadow-inner border"><h4 class="text-xl font-bold mb-4 text-center">The Story Behind Our Eggs</h4><div class="grid sm:grid-cols-2 gap-8"><div><h5 class="font-semibold text-blue-600">The Home</h5><p class="text-slate-600 mt-1 text-sm">Our chickens live in a secure, clean coop with a solar-powered door that opens at sunrise and closes at sunset, respecting their natural rhythms.</p></div><div><h5 class="font-semibold text-blue-600">The Diet</h5><p class="text-slate-600 mt-1 text-sm">Our hens enjoy organic feed supplemented by a rich diet of grasses, legumes, and insects they forage for in their spacious, protected run.</p></div><div><h5 class="font-semibold text-blue-600">The Purpose</h5><p class="text-slate-600 mt-1 text-sm">Our chickens are a vital part of our farm's nutrient cycle, creating "black gold" compost that enriches our pastures and gardens.</p></div><div><h5 class="font-semibold text-blue-600">The Result</h5><p class="text-slate-600 mt-1 text-sm">A happy, healthy life results in a more nutritious and delicious egg with a deep, golden yolk. It's a difference you can see and taste.</p></div></div></div></div>
+                <div class="grid md:grid-cols-2 gap-8 items-center"><div class="relative md:pr-12"><div class="absolute top-0 right-0 w-full h-full rounded-2xl bg-amber-50 transform rotate-3"></div><img src="../assets/images/Close-up Spoon Photo.jpg" alt="Golden honey being drizzled from a honey dipper." class="relative rounded-lg shadow-lg w-full h-auto object-cover z-10" onerror="this.onerror=null;this.src='https://placehold.co/800x600/eeeeee/cccccc?text=Image+Not+Found';"/></div><div class="md:pl-8"><h3 class="text-2xl font-bold text-blue-600 mb-2">Artisanal Honey</h3><p class="text-slate-600 mb-4">A direct taste of our farm's health. Our raw honey is produced by our AI-monitored bee colonies, which pollinate the diverse flora of our regenerative farm.</p><button id="honey-learn-more-btn" class="text-blue-600 font-semibold hover:underline link-animated" aria-expanded="false" aria-controls="honey-details-content">Learn more about what makes it artisanal</button></div></div>
+                <div id="honey-details-content" class="details-container"><div class="bg-white p-8 rounded-2xl shadow-inner border"><h4 class="text-xl font-bold mb-4 text-center">The Four Pillars of Our Artisanal Honey</h4><div class="grid sm:grid-cols-2 gap-8"><div><h5 class="font-semibold text-blue-600">The Source</h5><p class="text-slate-600 mt-1 text-sm">Our honey is a liquid expression of the farm's unique, regenerative ecosystem, creating a complex, one-of-a-kind flavor profile.</p></div><div><h5 class="font-semibold text-blue-600">The Process</h5><p class="text-slate-600 mt-1 text-sm">Our honey is raw and unfiltered. It is never pasteurized, preserving delicate enzymes and beneficial properties, with natural pollen intact.</p></div><div><h5 class="font-semibold text-blue-600">The Care</h5><p class="text-slate-600 mt-1 text-sm">AI-powered, in-hive sensors allow for non-invasive stewardship, leading to stronger, healthier colonies.</p></div><div><h5 class="font-semibold text-blue-600">The Transparency</h5><p class="text-slate-600 mt-1 text-sm">Each jar can be traced to our apiary via the Open-Data Portal. Scan a QR code to see the health data of the colonies that produced your honey.</p></div></div></div></div>
+            </div>
+        </div>
+    </section>
+
+    <section id="community-roots" class="py-12 md:py-16">
+        <div class="w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="bg-soft-terracotta p-8 sm:p-12 rounded-2xl shadow-lg">
+                <div class="text-center mb-16 px-6">
+                   <h2 class="text-3xl font-bold">Our Community Roots</h2>
+                   <p class="mt-2 text-slate-700 max-w-3xl mx-auto">Lila Farm is not being built in isolation. It is growing thanks to the wisdom, generosity, and tradecraft of our neighbors and friends.</p>
+                </div>
+                <div class="space-y-16">
+                    <div class="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
+                        <div><div class="overflow-hidden rounded-lg shadow-md"><video src="../assets/images/Sullivan.mp4" autoplay muted loop playsinline width="640" height="360" class="w-full h-auto object-cover aspect-[4/3]" alt="Portrait of Farmer Steve with his cows" onerror="this.onerror=null;this.src='https://placehold.co/800x600/eeeeee/cccccc?text=Image+Not+Found';"/></div></div>
+                        <div><h3 class="text-2xl font-bold">Sullivan Farm</h3><p class="font-semibold text-orange-800 mt-1">The Heart and Heritage of Our Herd</p><div class="space-y-4 text-slate-700 mt-4"><p>Steve and his son Darryl of Sullivan Farm are the embodiment of 'Legacy of Tradecraft.' As our invaluable mentors, they've shared their wisdom on everything from healing our pasture to the hands-on art of animal husbandry. It was from their quality herd that we purchased four of our foundation cows. Their practical guidance and the trust they showed in our vision are woven into the very fabric of our farm.</p><!-- FIX: Changed broken link to point to an existing section --> <a href="#community-roots" class="text-orange-800 font-semibold hover:underline link-animated">Read Their Full Story</a></div></div>
+                    </div>
+                    <div class="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
+                        <div class="md:order-2"><div class="overflow-hidden rounded-lg shadow-md"><img src="../assets/images/Paige'sFarm.jpeg" class="w-full h-auto object-cover aspect-[4/3]" alt="JR's and Paige's Farm"></div></div>
+                        <div class="md:order-1"><h3 class="text-2xl font-bold">Neighbor's Farm</h3><p class="font-semibold text-orange-800 mt-1">Where Our Journey Began</p><div class="space-y-4 text-slate-700 mt-4"><p>The foundation of our herd was made possible by two key members of our community, JR and Paige. They worked with us to coordinate the weaning of our first two calves—Zazu, a bull from Paige's farm, and Clover, a heifer from JR's. By selling us these exceptional animals, they showed their trust in our vision and gave us the perfect start.</p></div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+   </section>
+
+    <section id="team" class="py-24 bg-[#FDFBF8]">
+        <div class="w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+             <div class="text-center mb-16"><h2 class="text-3xl font-bold">Our Founders & Mentors</h2><p class="mt-2 text-slate-600 max-w-3xl mx-auto">Lila Farm was born from a vision to fuse timeless agricultural wisdom with modern technology. As first-generation farmers, our journey is one of constant learning, guided by a deep respect for the tradecraft of the past and a bold vision for the future.</p></div>
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div class="md:pr-8"><img src="../assets/images/Owner.jpeg" class="rounded-lg shadow-xl w-full h-auto object-cover" alt="Photo of the Founding Farmers" onerror="this.onerror=null;this.src='https://placehold.co/800x600/eeeeee/cccccc?text=Image+Not+Found';"/></div>
+                <div><h3 class="text-2xl font-bold">Our Founder, AR</h3><p class="font-semibold text-blue-600 mt-1">Farmpreneur & Founder</p><p class="text-slate-600 mt-4 leading-relaxed">We embody both the legacy and the strategy. We are the stewards, actively learning the timeless wisdom of the land, and the innovators, building the technology to listen to it. Our hands are in the soil, and our minds are on the data, creating a new legacy for the farms of tomorrow.</p></div>
+            </div>
+            <div class="mt-20 pt-16 border-t border-slate-200">
+                <h3 class="text-2xl font-bold text-center mb-12">Guided by Wisdom</h3>
+                <div class="grid sm:grid-cols-2 gap-10 max-w-4xl mx-auto">
+                    <div class="text-center bg-white p-8 rounded-lg shadow-lg"><img src="https://images.unsplash.com/photo-1563299796-b729d0af54a5?q=80&w=1974&auto=format&fit=crop" class="w-32 h-32 rounded-full mx-auto mb-4 object-cover" alt="Photo of a seasoned agricultural expert" onerror="this.onerror=null;this.src='https://placehold.co/128x128/eeeeee/cccccc?text=Image';"/><h3 class="text-xl font-bold">The Sage</h3><p class="font-semibold text-blue-600">Agricultural Advisor</p><p class="text-slate-600 mt-2 text-sm">A seasoned expert in regenerative practices, ensuring our strategy is grounded in the timeless wisdom of the land. Our mentors, like Steve Sullivan, have been our hands-on guides in everything from pasture restoration to animal husbandry.</p></div>
+                    <div class="text-center bg-white p-8 rounded-lg shadow-lg"><img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=2070&auto=format&fit=crop" class="w-32 h-32 rounded-full mx-auto mb-4 object-cover" alt="Photo of a technology expert working with data" onerror="this.onerror=null;this.src='https://placehold.co/128x128/eeeeee/cccccc?text=Image';"/><h3 class="text-xl font-bold">The Architect</h3><p class="font-semibold text-blue-600">Technology Advisor</p><p class="text-slate-600 mt-2 text-sm">An expert in AI and sensor technology, guiding our innovation to ensure our tools for listening are both effective and ethical.</p></div>
+                </div>
+            </div>
+        </div>
+    </section>
+        
+    <section id="journey-section" class="py-12 md:py-16 bg-white">
+        <div class="w-full max-w-4xl mx-auto px-6">
+            <div class="text-center mb-16"><h2 class="text-3xl font-bold">Our Farm's Journey</h2><p class="mt-2 text-slate-600 max-w-2xl mx-auto">Follow the stories of our foundational projects, the heart of our commitment to regeneration.</p></div>
+            <!-- FIX: Added ARIA attributes for tab accessibility -->
+            <div class="mb-8 border-b border-gray-200"><ul class="flex flex-wrap -mb-px text-sm font-medium text-center" id="journey-tabs" role="tablist"><li class="mr-2" role="presentation"><button class="inline-block p-4 border-b-2 rounded-t-lg active-tab" id="herd-tab" data-tabs-target="#herd-content" type="button" role="tab" aria-controls="herd-content" aria-selected="true">The Conservation Herd</button></li><li class="mr-2" role="presentation"><button class="inline-block p-4 border-b-2 rounded-t-lg" id="greenhouse-tab" data-tabs-target="#greenhouse-content" type="button" role="tab" aria-controls="greenhouse-content" aria-selected="false">The Synapse Greenhouse</button></li><li class="mr-2" role="presentation"><button class="inline-block p-4 border-b-2 rounded-t-lg" id="coop-tab" data-tabs-target="#coop-content" type="button" role="tab" aria-controls="coop-content" aria-selected="false">The Sunrise Coop</button></li><li class="mr-2" role="presentation"><button class="inline-block p-4 border-b-2 rounded-t-lg" id="apiary-tab" data-tabs-target="#apiary-content" type="button" role="tab" aria-controls="apiary-content" aria-selected="false">The AI-Powered Apiary</button></li><li class="mr-2" role="presentation"><button class="inline-block p-4 border-b-2 rounded-t-lg" id="sentinel-tab" data-tabs-target="#sentinel-content" type="button" role="tab" aria-controls="sentinel-content" aria-selected="false">The Sentinel Drone</button></li></ul></div>
+            <div id="journey-tab-content">
+                 <div id="herd-content" class="active-content" role="tabpanel" aria-labelledby="herd-tab"><div class="relative"><div class="hidden md:block absolute top-0 left-3.5 w-0.5 h-full bg-slate-200"></div><div class="space-y-12"><div class="relative pl-12"><div class="absolute top-1 left-0 w-8 h-8 rounded-full bg-blue-500 border-4 border-white flex items-center justify-center text-white font-bold">1</div><p class="text-sm font-semibold text-blue-600">August 2024</p><h3 class="text-xl font-bold mt-1">The Foundation is Laid</h3><p class="text-slate-600 mt-2">Our herd's foundation is established with the arrival of Zazu, our first bull calf from Paige's farm, and Clover, our first heifer from JR's farm.</p></div><div class="relative pl-12"><div class="absolute top-1 left-0 w-8 h-8 rounded-full bg-pink-500 border-4 border-white flex items-center justify-center text-white font-bold">2</div><p class="text-sm font-semibold text-pink-600">August 2025</p><h3 class="text-xl font-bold mt-1">The Herd Grows</h3><p class="text-slate-600 mt-2">Tara, a spirited heifer from Sullivan Farm, joins the herd.</p></div><div class="relative pl-12"><div class="absolute top-1 left-0 w-8 h-8 rounded-full bg-purple-500 border-4 border-white flex items-center justify-center text-white font-bold">3</div><p class="text-sm font-semibold text-purple-600">September 2025</p><h3 class="text-xl font-bold mt-1">Completing the Family</h3><p class="text-slate-600 mt-2">Aanya and Ruby are welcomed, bringing our foundation herd to five.</p></div><div class="relative pl-12"><div class="absolute top-1 left-0 w-8 h-8 rounded-full bg-green-500 border-4 border-white flex items-center justify-center text-white font-bold">4</div><p class="text-sm font-semibold text-green-600">January 2026</p><h3 class="text-xl font-bold mt-1">The Herd is Complete</h3><p class="text-slate-600 mt-2">Zara, a beautiful speckled heifer, arrives, completing our foundation herd of six animals—one bull and five heifers.</p></div></div></div></div>
+                 <div id="greenhouse-content" role="tabpanel" aria-labelledby="greenhouse-tab"><div class="relative"><div class="hidden md:block absolute top-0 left-3.5 w-0.5 h-full bg-slate-200"></div><div class="space-y-12"><div class="relative pl-12"><div class="absolute top-1 left-0 w-8 h-8 rounded-full bg-yellow-500 border-4 border-white flex items-center justify-center text-white font-bold">1</div><p class="text-sm font-semibold text-yellow-600">August 2025</p><h3 class="text-xl font-bold mt-1">A Seed of Support is Sown</h3><p class="text-slate-600 mt-2">We received the Alachua County Small Farmer Grant, providing foundational support for our AI-powered aeroponic greenhouse.</p></div><div class="relative pl-12"><div class="absolute top-1 left-0 w-8 h-8 rounded-full bg-orange-500 border-4 border-white flex items-center justify-center text-white font-bold">2</div><p class="text-sm font-semibold text-orange-600">September 2025</p><h3 class="text-xl font-bold mt-1">Bringing the Vision to Life</h3><p class="text-slate-600 mt-2">With the grant secured, we are moving forward to complete the greenhouse setup this month.</p></div><div class="relative pl-12"><div class="absolute top-1 left-0 w-8 h-8 rounded-full bg-teal-500 border-4 border-white flex items-center justify-center text-white font-bold">3</div><p class="text-sm font-semibold text-teal-600">The Future</p><h3 class="text-xl font-bold mt-1">The First Harvest</h3><p class="text-slate-600 mt-2">Our next milestone will be the first harvest of nutrient-dense microgreens and herbs from the Synapse Greenhouse.</p></div></div></div></div>
+                 <div id="coop-content" role="tabpanel" aria-labelledby="coop-tab"><div class="relative"><div class="hidden md:block absolute top-0 left-3.5 w-0.5 h-full bg-slate-200"></div><div class="space-y-12"><div class="relative pl-12"><div class="absolute top-1 left-0 w-8 h-8 rounded-full bg-orange-500 border-4 border-white flex items-center justify-center text-white font-bold">1</div><p class="text-sm font-semibold text-orange-600">October 2025</p><h3 class="text-xl font-bold mt-1">Learning the Tradecraft</h3><p class="text-slate-600 mt-2">Our mentor Steve Sullivan shared key principles of building a secure and healthy coop.</p></div><div class="relative pl-12"><div class="absolute top-1 left-0 w-8 h-8 rounded-full bg-red-500 border-4 border-white flex items-center justify-center text-white font-bold">2</div><p class="text-sm font-semibold text-red-600">November 2025</p><h3 class="text-xl font-bold mt-1">The Sunrise Coop is Built</h3><p class="text-slate-600 mt-2">We complete the coop and integrate its solar-powered automated door to respect the chickens' natural rhythms.</p></div><div class="relative pl-12"><div class="absolute top-1 left-0 w-8 h-8 rounded-full bg-lime-500 border-4 border-white flex items-center justify-center text-white font-bold">3</div><p class="text-sm font-semibold text-lime-600">The Future</p<h3 class="text-xl font-bold mt-1">The First Eggs</h3><p class="text-slate-600 mt-2">Our next milestone will be the first pasture-raised eggs from our happy flock, available at the Farm Stand.</p></div></div></div></div>
+                 <div id="apiary-content" role="tabpanel" aria-labelledby="apiary-tab"><div class="relative"><div class="hidden md:block absolute top-0 left-3.5 w-0.5 h-full bg-slate-200"></div><div class="space-y-12"><div class="relative pl-12"><div class="absolute top-1 left-0 w-8 h-8 rounded-full bg-amber-500 border-4 border-white flex items-center justify-center text-white font-bold">1</div><p class="text-sm font-semibold text-amber-600">Winter 2025</p><h3 class="text-xl font-bold mt-1">The Pilot Program Begins</h3><p class="text-slate-600 mt-2">We will begin our apiary journey with a pilot program of six hives, each integrated with our AI-powered sensors.</p></div><div class="relative pl-12"><div class="absolute top-1 left-0 w-8 h-8 rounded-full bg-yellow-500 border-4 border-white flex items-center justify-center text-white font-bold">2</div><p class="text-sm font-semibold text-yellow-600">Summer 2026</p><h3 class="text-xl font-bold mt-1">The First Sweet Reward</h3><p class="text-slate-600 mt-2">We anticipate our first honey harvest from the pilot hives, a direct taste of the farm's health for our community.</p></div><div class="relative pl-12"><div class="absolute top-1 left-0 w-8 h-8 rounded-full bg-indigo-500 border-4 border-white flex items-center justify-center text-white font-bold">3</div><p class="text-sm font-semibold text-indigo-600">The Future</p><h3 class="text-xl font-bold mt-1">Scaling the Vision</h3><p class="text-slate-600 mt-2">Based on learnings from our pilot, we will scale up to our full, 24-hive apiary.</p></div></div></div></div>
+                 <div id="sentinel-content" role="tabpanel" aria-labelledby="sentinel-tab"><div class="relative"><div class="hidden md:block absolute top-0 left-3.5 w-0.5 h-full bg-slate-200"></div><div class="space-y-12"><div class="relative pl-12"><div class="absolute top-1 left-0 w-8 h-8 rounded-full bg-indigo-500 border-4 border-white flex items-center justify-center text-white font-bold">1</div><p class="text-sm font-semibold text-indigo-600">Spring 2026</p><h3 class="text-xl font-bold mt-1">The Eye in the Sky</h3><p class="text-slate-600 mt-2">We will launch the Sentinel Drone to begin creating health maps of our pastures, listening to the land at scale.</p></div><div class="relative pl-12"><div class="absolute top-1 left-0 w-8 h-8 rounded-full bg-sky-500 border-4 border-white flex items-center justify-center text-white font-bold">2</div><p class="text-sm font-semibold text-sky-600">Summer 2026</p><h3 class="text-xl font-bold mt-1">First Insights</h3><p class="text-slate-600 mt-2">The Sentinel's data will be integrated with our Smart Herd Management system for precise grazing decisions.</p></div><div class="relative pl-12"><div class="absolute top-1 left-0 w-8 h-8 rounded-full bg-emerald-500 border-4 border-white flex items-center justify-center text-white font-bold">3</div><p class="text-sm font-semibold text-emerald-600">The Future</p<h3 class="text-xl font-bold mt-1">Open-Data Integration</h3><p class="text-slate-600 mt-2">The health maps will become a key feature of our public Open-Data Portal, offering radical transparency.</p></div></div></div></div>
+            </div>
+        </div>
+    </section>
+
+    <section id="heart-section" class="relative py-24 bg-slate-800 text-white overflow-hidden">
+        <img src="https://images.unsplash.com/photo-1444858291040-58f756a3bdd6?q=80&w=2070&auto=format&fit=crop" class="absolute inset-0 w-full h-full object-cover opacity-20" alt="Lush farm landscape at sunset" onerror="this.onerror=null;this.src='https://placehold.co/1920x1080/eeeeee/cccccc?text=Image+Not+Found';"/>
+        <div class="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/80 to-transparent"></div>
+         <div class="relative z-10 w-full max-w-6xl mx-auto px-6 grid md:grid-cols-2 gap-12 items-center">
+            <div class="md:pr-8 flex justify-center"><svg id="animated-lotus" width="300" height="300" viewBox="-100 -100 200 200" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="lotus-g-base"><path d="M0,0 Q-10,-5 -20,-20 Q-40,-50 0,-90 Q40,-50 20,-20 Q10,-5 0,0 Z" fill="#64748b"/></g><g id="lotus-g-petals"><path id="petal-back-1" d="M0 0 C -30 -30 -10 -60 0 -80 C 10 -60 30 -30 0 0" fill="#F472B6" opacity="0.5"/><path id="petal-back-2" d="M0 0 C -30 -30 -10 -60 0 -80 C 10 -60 30 -30 0 0" fill="#F472B6" opacity="0.5"/><path id="petal-back-3" d="M0 0 C -30 -30 -10 -60 0 -80 C 10 -60 30 -30 0 0" fill="#F472B6" opacity="0.5"/><path id="petal-front-1" d="M0 0 C -20 -25 -5 -45 0 -60 C 5 -45 20 -25 0 0" fill="#EC4899"/><path id="petal-front-2" d="M0 0 C -20 -25 -5 -45 0 -60 C 5 -45 20 -25 0 0" fill="#EC4899"/><path id="petal-front-3" d="M0 0 C -20 -25 -5 -45 0 -60 C 5 -45 20 -25 0 0" fill="#EC4899"/><circle id="petal-center" cx="0" cy="-25" r="8" fill="#FBBF24"/></g></svg></div>
+            <div class="text-left"><h2 class="text-4xl font-bold mb-8 text-white">The Heart of Lila Farm</h2><div class="text-lg text-slate-300 leading-relaxed space-y-6"><p>Lila Farm is a separate entity powered by Saffire, a revolutionary agricultural system from the innovation firm LOTUS Nexus. We apply this technology through our guiding principle: a <strong>L</strong>egacy <strong>O</strong>f <strong>T</strong>radecraft <strong>U</strong>nified by <strong>S</strong>trategy.</p><p>The innovation isn't just the sensor; it's the deeper connection and the more profound respect that these tools make possible, all in service of a more regenerative future.</p></div></div>
+        </div>
+    </section>
+    
+    <section id="connect" class="py-12 md:py-16 bg-soft-terracotta">
+        <div class="w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12"><h2 class="text-3xl font-bold">Visit & Connect</h2><p class="mt-2 text-slate-600">We believe in building community. Whether you want to visit the farm stand or ask a question, we'd love to hear from you.</p></div>
+            <div class="grid md:grid-cols-2 gap-12 max-w-4xl mx-auto">
+                <div><h3 class="text-2xl font-bold mb-4">Visit The Farm Stand</h3><div class="space-y-4 text-slate-700"><div><h4 class="font-bold">Location</h4><p>123 Regenerative Way, Archer, FL 32618</p></div><div><h4 class="font-bold">Hours (Seasonal)</h4><p>Saturdays: 9:00 AM - 1:00 PM</p></div><!-- FIX: Added title attribute for accessibility --><div class="mt-4 h-64 bg-slate-200 rounded-lg overflow-hidden"><iframe title="Farm Location Map" src="https://maps.google.com/maps?q=Archer,%20FL&t=&z=13&ie=UTF8&iwloc=&output=embed" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe></div></div></div>
+                <div><h3 class="text-2xl font-bold mb-4">Start a Conversation</h3><form id="contact-form" action="#" method="POST" class="space-y-4"><div><label for="name" class="sr-only">Name</label><input type="text" name="name" id="name" class="w-full rounded-md border-slate-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" placeholder="Your Name" required></div><div><label for="email" class="sr-only">Email</label><input type="email" name="email" id="email" class="w-full rounded-md border-slate-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" placeholder="Your Email" required></div><div><label for="message" class="sr-only">Message</label><textarea name="message" id="message" rows="4" class="w-full rounded-md border-slate-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" placeholder="Your Message" required></textarea></div><button type="submit" class="w-full bg-blue-600 text-white font-bold py-3 px-6 rounded-lg hover:bg-blue-700 transition-colors">Send Message</button><div id="form-success-message" class="text-green-600 font-semibold text-center pt-2" style="display: none;" role="status"></div></form></div>
+            </div>
+        </div>
+    </section>
+
+    <section id="newsletter" class="py-12 md:py-16 bg-soft-terracotta border-t border-orange-200/50">
+        <div class="w-full max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2 class="text-3xl font-bold">The Lila Farm Dispatch</h2>
+            <p class="mt-2 text-slate-700 max-w-2xl mx-auto">Join our journey. Subscribe for seasonal updates, stories from the farm, and news about what's fresh at the Farm Stand.</p>
+            <form id="newsletter-form" class="mt-8 flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
+                <label for="newsletter-email" class="sr-only">Email address</label>
+                <input type="email" name="newsletter-email" id="newsletter-email" class="w-full px-4 py-3 rounded-md border-slate-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" placeholder="Enter your email" required>
+                <button type="submit" class="sm:w-auto bg-orange-600 text-white font-bold py-3 px-6 rounded-lg hover:bg-orange-700 transition-colors flex-shrink-0">Subscribe</button>
+            </form>
+             <div id="newsletter-success-message" class="text-green-700 font-semibold text-center pt-4" style="display: none;" role="status"></div>
+        </div>
+    </section>
+
+    <footer class="bg-[#FDFBF8] py-12">
+        <div class="w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-2 gap-8 items-center">
+                 <div id="partners" class="text-center">
+                     <h3 class="text-lg font-semibold text-slate-800 mb-4">Our Community Partners</h3>
+                     <div class="inline-flex items-center space-x-4 bg-white p-4 pr-6 rounded-lg shadow-md border border-slate-200/80">
+                         <div class="icon-wrapper flex-shrink-0 flex items-center justify-center rounded-full bg-sky-100 text-sky-600 h-12 w-12"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg></div>
+                         <p class="text-slate-600 text-left text-sm max-w-xs">The <span class="font-bold">Greenhouse</span> is proudly supported by a mini-grant from the <span class="font-semibold text-blue-600">Alachua County Small Farmer Grant</span> program.</p>
+                     </div>
+                 </div>
+                 <div id="b-corp" class="text-center">
+                    <h3 class="text-lg font-semibold text-slate-800 mb-4">Our Commitment</h3>
+                    <div class="inline-flex items-center space-x-3 bg-white p-4 pr-6 rounded-lg shadow-md border border-slate-200/80">
+                        <div class="icon-wrapper flex-shrink-0 flex items-center justify-center rounded-full bg-blue-600 text-white h-12 w-12"><svg class="w-6 h-6" viewBox="0 0 24 24" fill="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 12.572l-7.5 7.428-7.5-7.428m15 0A23.1 23.1 0 0012 3.572 23.1 23.1 0 004.5 12.572" /></svg></div>
+                        <p class="text-slate-700 text-sm">We are a registered<br><span class="font-bold">Social Purpose Corporation</span>.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center mt-12 pt-8 border-t border-slate-200 text-slate-500"><p>&copy; 2025 Lila Farm | Powered by Saffire from LOTUS Nexus.</p></div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            gsap.registerPlugin(ScrollTrigger);
+            
+            // Dynamic Header
+            const header = document.getElementById('main-header');
+            ScrollTrigger.create({
+                start: 'top -80',
+                end: 99999,
+                toggleClass: {
+                    className: 'header-scrolled',
+                    targets: '#main-header'
+                }
+            });
+
+            // Mobile Menu
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const closeMenuButton = document.getElementById('close-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const mobileNavLinks = mobileMenu.querySelectorAll('a');
+
+            function openMenu() {
+                mobileMenu.classList.remove('hidden');
+                document.body.classList.add('mobile-menu-open');
+                
+                gsap.set(mobileNavLinks, { opacity: 0, y: 20 });
+                gsap.fromTo(mobileMenu, { opacity: 0, y: '-100%' }, { 
+                    opacity: 1, 
+                    y: '0%', 
+                    duration: 0.3, 
+                    ease: 'power1.out',
+                    onComplete: () => {
+                        gsap.to(mobileNavLinks, { opacity: 1, y: 0, duration: 0.4, stagger: 0.1, ease: 'power1.out' });
+                    }
+                });
+            }
+
+            function closeMenu() {
+                 gsap.to(mobileMenu, { 
+                    opacity: 0, 
+                    y: '-100%', 
+                    duration: 0.3, 
+                    ease: 'power1.in', 
+                    onComplete: () => {
+                        mobileMenu.classList.add('hidden');
+                        document.body.classList.remove('mobile-menu-open');
+                    }
+                });
+            }
+            
+            mobileMenuButton.addEventListener('click', openMenu);
+            closeMenuButton.addEventListener('click', closeMenu);
+            
+            // Smooth Scroll for all nav links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    
+                    const targetId = this.getAttribute('href');
+                    const targetElement = document.querySelector(targetId);
+
+                    if (targetElement) {
+                        targetElement.scrollIntoView({
+                            behavior: 'smooth'
+                        });
+                    }
+
+                    // If it's a mobile link, close the menu
+                    if (Array.from(mobileNavLinks).includes(this)) {
+                        closeMenu();
+                    }
+                });
+            });
+
+            // Philosophy Cards & other initializations...
+            const contentDisplay = document.getElementById('content-display');
+            const navCards = document.querySelectorAll('.nav-card');
+            let currentContentId = null;
+
+            const contents = {
+                'sowing-fostering': {
+                    title: 'Sowing & Fostering', text: 'This is our commitment to proactive cultivation. We don’t just plant seeds; we foster the entire ecosystem. This means nurturing soil health with cover crops, creating habitats for beneficial insects, and managing our water resources with intelligent, data-driven care.',
+                    icon: `<svg class="w-8 h-8" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-width="1.5"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" /></svg>`
+                },
+                'fruitful-interactions': {
+                    title: 'Fruitful Interactions', text: 'We believe a farm is a complex web of relationships. Our technology, Saffire, is designed to enhance these interactions. The system observes the symbiotic dance between our cattle and the pasture, the bees and the wildflowers, the chickens and the soil, helping us make decisions that benefit the entire community of life on the farm.',
+                     icon: `<svg class="w-8 h-8" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-width="1.5"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" /><circle cx="9" cy="7" r="4" /><path d="M23 21v-2a4 4 0 00-3-3.87" /><path d="M16 3.13a4 4 0 010 7.75" /></svg>`
+                },
+                'respecting-everything': {
+                    title: 'Respecting Everything', text: 'This is our foundational ethic. Respect for the soil, for the water, for every animal, and for the people we serve. It’s why we practice non-slaughter animal husbandry and use non-invasive monitoring for our bees. It drives our commitment to transparency, sharing our data and our journey with our community.',
+                     icon: `<svg class="w-8 h-8" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" /></svg>`
+                }
+            };
+
+            navCards.forEach(card => {
+                card.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const contentId = card.dataset.content;
+                    if (contentId === currentContentId) return;
+                    currentContentId = contentId;
+                    const data = contents[contentId];
+                    const newContent = `<div class="content-card bg-white p-8 rounded-2xl shadow-inner border border-slate-200/80"><div class="flex items-center mb-4"><div class="flex-shrink-0 h-14 w-14 rounded-lg bg-blue-100 text-blue-600 flex items-center justify-center mr-4">${data.icon}</div><h3 class="text-2xl font-bold">${data.title}</h3></div><p class="text-slate-600 leading-relaxed">${data.text}</p></div>`;
+                    if (contentDisplay.innerHTML.trim() !== '') {
+                        gsap.to(contentDisplay.children, { opacity: 0, y: 10, duration: 0.3, onComplete: () => { contentDisplay.innerHTML = newContent; gsap.fromTo(contentDisplay.children, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.3 }); } });
+                    } else {
+                        contentDisplay.innerHTML = newContent;
+                        gsap.fromTo(contentDisplay.children, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.3 });
+                    }
+                    contentDisplay.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                });
+            });
+            
+            // FIX: Enhanced accordion function with ARIA attributes
+            function setupAccordion(buttonId, contentId) {
+                const button = document.getElementById(buttonId);
+                const content = document.getElementById(contentId);
+                if (!button || !content) return;
+                button.addEventListener('click', (e) => { 
+                    e.preventDefault(); 
+                    const isExpanded = content.classList.toggle('expanded');
+                    button.setAttribute('aria-expanded', isExpanded);
+                });
+            }
+            setupAccordion('herd-learn-more-btn', 'herd-details-content');
+            setupAccordion('honey-learn-more-btn', 'honey-details-content');
+            setupAccordion('eggs-learn-more-btn', 'eggs-details-content');
+            
+            // FIX: Enhanced tabs function with ARIA attributes
+            const journeyTabs = document.querySelectorAll('#journey-tabs button');
+            const journeyTabContents = document.querySelectorAll('#journey-tab-content > div');
+            journeyTabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    journeyTabs.forEach(t => {
+                        t.classList.remove('active-tab');
+                        t.setAttribute('aria-selected', 'false');
+                    });
+                    journeyTabContents.forEach(c => c.classList.remove('active-content'));
+                    
+                    tab.classList.add('active-tab');
+                    tab.setAttribute('aria-selected', 'true');
+                    const target = document.querySelector(tab.dataset.tabsTarget);
+                    if (target) {
+                        target.classList.add('active-content');
+                        gsap.from(target.querySelectorAll('.relative.pl-12'), {opacity: 0, y: 20, duration: 0.4, stagger: 0.1});
+                    }
+                });
+            });
+
+            // FIX: Optimized lotus animation to only play when in view
+            const lotusTimeline = gsap.timeline({ paused: true, repeat: -1, yoyo: true, repeatDelay: 1 });
+            lotusTimeline.to(["#petal-back-1", "#petal-front-1"], { rotate: 0, duration: 2, ease: "power1.inOut" })
+                .to(["#petal-back-2", "#petal-front-2"], { rotate: 55, duration: 2, ease: "power1.inOut" }, "<")
+                .to(["#petal-back-3", "#petal-front-3"], { rotate: -55, duration: 2, ease: "power1.inOut" }, "<")
+                .to("#petal-center", { scale: 1.1, duration: 2, ease: "power1.inOut" }, "<")
+                .to(["#petal-back-1", "#petal-front-1"], { rotate: -15, duration: 2, ease: "power1.inOut" }, ">")
+                .to(["#petal-back-2", "#petal-front-2"], { rotate: 30, duration: 2, ease: "power1.inOut" }, "<")
+                .to(["#petal-back-3", "#petal-front-3"], { rotate: -30, duration: 2, ease: "power1.inOut" }, "<")
+                .to("#petal-center", { scale: 1, duration: 2, ease: "power1.inOut" }, "<");
+
+            ScrollTrigger.create({
+                trigger: "#animated-lotus",
+                start: "top 80%",
+                end: "bottom 20%",
+                onEnter: () => lotusTimeline.play(),
+                onLeave: () => lotusTimeline.pause(),
+                onEnterBack: () => lotusTimeline.play(),
+                onLeaveBack: () => lotusTimeline.pause(),
+            });
+
+            gsap.set("#lotus-g-base", { transformOrigin: "50% 100%", rotate: 0 });
+            gsap.set(["#petal-back-1", "#petal-front-1"], { transformOrigin: "50% 100%", rotate: 0 });
+            gsap.set(["#petal-back-2", "#petal-front-2"], { transformOrigin: "50% 100%", rotate: 55 });
+            gsap.set(["#petal-back-3", "#petal-front-3"], { transformOrigin: "50% 100%", rotate: -55 });
+            
+            const contactForm = document.getElementById('contact-form');
+            if (contactForm) {
+                const successMessage = document.getElementById('form-success-message');
+                contactForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    if(successMessage) {
+                        successMessage.textContent = 'Thank you for your message!';
+                        successMessage.style.display = 'block';
+                    }
+                    contactForm.reset();
+                    setTimeout(() => { if(successMessage) { successMessage.style.display = 'none'; } }, 4000);
+                });
+            }
+
+            const newsletterForm = document.getElementById('newsletter-form');
+            if(newsletterForm) {
+                const successMessage = document.getElementById('newsletter-success-message');
+                newsletterForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    if(successMessage) {
+                        successMessage.textContent = 'Thank you for subscribing!';
+                        successMessage.style.display = 'block';
+                    }
+                    newsletterForm.reset();
+                    setTimeout(() => { if(successMessage) { successMessage.style.display = 'none'; } }, 4000);
+                });
+            }
+
+            const sectionsToAnimate = ['#technology', '#data-portal', '#offerings', '#community-roots', '#team', '#journey-section', '#heart-section', '#connect', '#newsletter', 'footer'];
+            sectionsToAnimate.forEach(selector => {
+                const section = document.querySelector(selector);
+                if(section) {
+                     gsap.from(section, { scrollTrigger: { trigger: section, start: "top 85%", toggleActions: "play none none none" }, opacity: 0, y: 50, duration: 0.8, ease: "power1.out" });
+                }
+            });
+            
+            function polarToCartesian(centerX, centerY, radius, angleInDegrees) {
+                const angleInRadians = (angleInDegrees - 90) * Math.PI / 180.0;
+                return { x: centerX + (radius * Math.cos(angleInRadians)), y: centerY + (radius * Math.sin(angleInRadians)) };
+            }
+
+            function describeArc(x, y, radius, startAngle, endAngle) {
+                const start = polarToCartesian(x, y, radius, endAngle);
+                const end = polarToCartesian(x, y, radius, startAngle);
+                const largeArcFlag = endAngle - startAngle <= 180 ? "0" : "1";
+                const d = ["M", start.x, start.y, "A", radius, radius, 0, largeArcFlag, 0, end.x, end.y].join(" ");
+                return d;
+            }
+
+            const activityClock = document.getElementById('activity-clock');
+            if (activityClock) {
+                const activityData = [
+                    { name: 'Grazing', hours: 10, color: '#22c55e' },
+                    { name: 'Resting', hours: 8, color: '#3b82f6' },
+                    { name: 'Socializing', hours: 6, color: '#64748b' },
+                ];
+                let cumulativeAngle = 0;
+                activityData.forEach(activity => {
+                    const angle = (activity.hours / 24) * 360;
+                    const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+                    path.setAttribute("d", describeArc(50, 50, 40, cumulativeAngle, cumulativeAngle + angle - 1)); // -1 for small gap
+                    path.setAttribute("fill", "none");
+                    path.setAttribute("stroke", activity.color);
+                    path.setAttribute("stroke-width", "12");
+                    activityClock.appendChild(path);
+                    cumulativeAngle += angle;
+                });
+            }
+             
+            document.querySelectorAll('.herd-location-btn').forEach(button => {
+                button.addEventListener('click', () => {
+                    button.closest('.flip-card').classList.toggle('flipped');
+                });
+            });
+            
+            const pastureHealthCircle = document.getElementById('pasture-health-circle');
+            const pastureHealthText = document.getElementById('pasture-health-text');
+            if(pastureHealthCircle && pastureHealthText) {
+                gsap.fromTo(pastureHealthCircle, { strokeDashoffset: 100 }, {
+                    strokeDashoffset: 13, duration: 2, ease: "power1.inOut",
+                    scrollTrigger: { trigger: pastureHealthCircle, start: "top 80%" },
+                    onUpdate: function() {
+                        pastureHealthText.textContent = `${Math.round(100 - this.progress() * (100-87))}%`;
+                    }
+                });
+            }
+
+        });
+    </script>
+</body>
+</html>
+

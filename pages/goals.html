@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LOTUS Nexus Conceptual Chart</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Lora:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .node text {
+            font-size: 13px;
+            font-weight: 500;
+            paint-order: stroke;
+            stroke: #f8fafc;
+            stroke-width: 3px;
+            stroke-linecap: butt;
+            stroke-linejoin: miter;
+        }
+        .link {
+            fill: none;
+            stroke: #cbd5e1;
+            stroke-width: 2px;
+        }
+        #chart {
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+    <div class="flex flex-col items-center justify-center min-h-screen p-4 sm:p-6 md:p-8">
+        <div class="w-full max-w-6xl bg-white rounded-2xl shadow-lg p-6 md:p-8 border border-gray-200">
+            <div class="text-center mb-6">
+                <h1 class="text-3xl md:text-4xl font-bold text-gray-900">LOTUS Nexus Conceptual Chart</h1>
+                <p class="text-gray-600 mt-2">A structured overview of the company's philosophy, ventures, and leadership.</p>
+            </div>
+            <div id="chart-container" class="w-full h-[60vh] md:h-[70vh] rounded-lg bg-gray-100/50 border border-gray-200 overflow-hidden flex items-center justify-center">
+                <svg id="chart"></svg>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // --- HIERARCHICAL DATA ---
+            const chartData = {
+                name: "LOTUS Nexus",
+                type: "business",
+                children: [
+                    {
+                        name: "Company Details",
+                        type: "product",
+                        children: [
+                            { name: "Structure: To be a Benefit Corporation", type: "concept" },
+                            { name: "Incubator: Positioned for UF Innovate", type: "concept" },
+                            { name: "Leadership: A R (Founder & Chief Visionary)", type: "concept" }
+                        ]
+                    },
+                    {
+                        name: "Ventures",
+                        type: "product",
+                        children: [
+                            { name: "Saffire: AI for Regenerative Agriculture", type: "concept" },
+                            { name: "Structura: AI for Building Code Compliance", type: "concept" },
+                            { name: "Fenestra: Fenestration Education Platform", type: "concept" },
+                            { name: "Harmonia: Music Theory Education for Kids", type: "concept" }
+                        ]
+                    },
+                    {
+                        name: "Core Philosophy",
+                        type: "product",
+                        children: [
+                            { name: "Purpose-Driven Innovation", type: "concept" },
+                            { name: "Human-Centric Design", type: "concept" },
+                            { name: "Positive Social & Environmental Impact", type: "concept" },
+                            { name: "Unifying Tradecraft with Strategy", type: "concept" }
+                        ]
+                    }
+                ]
+            };
+            
+            const container = document.getElementById('chart-container');
+
+            const typeColors = {
+                'business': '#1E3A8A', // Nexus Blue
+                'product': '#10B981',   // A neutral green for branches
+                'concept': '#4F46E5'    // Indigo for details
+            };
+
+            const svg = d3.select("#chart");
+            const g = svg.append("g");
+            
+            function wrap(text, width) {
+                text.each(function() {
+                    let text = d3.select(this),
+                        words = text.text().split(/\s+/).reverse(),
+                        word,
+                        line = [],
+                        lineNumber = 0,
+                        lineHeight = 1.1,
+                        x = text.attr("x"),
+                        y = text.attr("y"),
+                        dy = 0,
+                        tspan = text.text(null).append("tspan").attr("x", x).attr("y", y).attr("dy", dy + "em");
+                    while (word = words.pop()) {
+                        line.push(word);
+                        tspan.text(line.join(" "));
+                        if (tspan.node().getComputedTextLength() > width) {
+                            line.pop();
+                            tspan.text(line.join(" "));
+                            line = [word];
+                            tspan = text.append("tspan").attr("x", x).attr("y", y).attr("dy", ++lineNumber * lineHeight + dy + "em").text(word);
+                        }
+                    }
+                });
+            }
+
+            function update() {
+                const height = 600;
+                const width = 900;
+
+                const clusterLayout = d3.cluster().size([height, width - 300]);
+                const root = d3.hierarchy(chartData);
+                clusterLayout(root);
+
+                g.selectAll("*").remove();
+
+                g.append("g")
+                    .attr("class", "links")
+                    .selectAll("path")
+                    .data(root.links())
+                    .join("path")
+                    .attr("class", "link")
+                    .attr("d", d => d3.linkHorizontal()({
+                        source: [d.source.y, d.source.x],
+                        target: [d.target.y, d.target.x]
+                    }));
+
+                const node = g.append("g")
+                    .attr("class", "nodes")
+                    .selectAll("g")
+                    .data(root.descendants())
+                    .join("g")
+                    .attr("transform", d => `translate(${d.y},${d.x})`);
+
+                node.append("circle")
+                    .attr("r", 8)
+                    .attr("fill", d => typeColors[d.data.type])
+                    .attr("stroke", d => d3.color(typeColors[d.data.type]).darker(1))
+                    .attr("stroke-width", 2);
+                
+                node.append("text")
+                    .text(d => d.data.name)
+                    .attr("dy", "0.31em")
+                    .attr("x", d => d.children ? -16 : 16)
+                    .attr("text-anchor", d => d.children ? "end" : "start")
+                    .style("font-size", d => {
+                         if (d.data.type === 'business') return '20px';
+                         if (d.data.type === 'product') return '16px';
+                         return '12px';
+                    })
+                    .style("font-weight", d => (d.data.type === 'business' || d.data.type === 'product') ? '600' : '500')
+                    .attr('fill', d => d.data.type === 'business' ? '#1e2d3b' : '#334155')
+                    .call(wrap, 280);
+
+                const box = g.node().getBBox();
+                const padding = 20;
+                svg.attr("preserveAspectRatio", "xMidYMid meet")
+                   .attr("viewBox", `${box.x - padding} ${box.y - padding} ${box.width + padding * 2} ${box.height + padding * 2}`);
+            }
+            
+            new ResizeObserver(update).observe(container);
+            update();
+        });
+    </script>
+</body>
+</html>

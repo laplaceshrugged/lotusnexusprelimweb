@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Saffire Systems | The Sunrise Coop</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Lora:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'saffire-gold': '#FBBF24',
+                        'soft-terracotta': '#F3E9E2',
+                        'nexus-blue': '#1E3A8A',
+                    },
+                    fontFamily: {
+                        'sans': ['Inter', 'sans-serif'],
+                        'serif': ['Lora', 'serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #FDFBF8;
+            color: #334155;
+            padding-top: 80px; /* Added padding for fixed header */
+        }
+        h1, h2, h3, h4, h5 {
+            font-family: 'Lora', serif;
+            color: #111827;
+        }
+        .header-scrolled {
+            background-color: rgba(253, 251, 248, 0.8);
+            border-bottom-width: 1px;
+            border-color: #e7e5e4;
+            backdrop-filter: blur(16px);
+            box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+        }
+        .header-scrolled .brand-text {
+            color: #111827;
+        }
+        .icon-lotus { 
+            display: inline-block;
+            width: 1.25em;
+            height: 1.25em;
+            background-color: currentColor;
+            clip-path: path('M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.16 2.54 7.68 6.08 9.13C9.28 21.6 10.6 22 12 22s2.72-.4 3.92-.87C19.46 19.68 22 16.16 22 12zM12 4c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2zm0 16c-3.31 0-6-2.69-6-6s2.69-6 6-6 6 2.69 6 6-2.69 6-6 6z'); 
+            transform: scale(0.06) translate(-200px, -200px); 
+        }
+        .prose strong {
+            font-family: 'Lora', serif;
+            font-weight: 600;
+            color: #1e3a8a; /* A deep blue for emphasis */
+        }
+    </style>
+</head>
+<body class="antialiased">
+    <header id="main-header" class="fixed top-0 left-0 right-0 z-50 header-scrolled">
+        <div class="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="saffire.html" class="flex items-center space-x-3">
+                 <span class="icon-lotus text-pink-500 text-3xl"></span>
+                 <span class="font-serif text-2xl font-bold brand-text">Saffire</span>
+                 <span class="font-sans text-sm text-slate-500 ml-2">by LOTUS Nexus</span>
+            </a>
+            <a href="lila_farm.html" class="bg-blue-600 text-white font-semibold px-5 py-2.5 rounded-lg shadow-lg hover:bg-blue-700 active:scale-95 transition-all duration-200">
+                See it in Action at Lila Farm
+            </a>
+        </div>
+    </header>
+
+    <div class="p-4 sm:p-6 lg:p-8">
+        <div class="max-w-4xl mx-auto">
+            <header class="py-12">
+                <a href="saffire.html#saffire-systems" class="text-blue-600 hover:underline font-semibold mb-4 inline-block">&larr; Back to Saffire Systems</a>
+                <h1 class="text-5xl sm:text-6xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-red-500 to-orange-500 tracking-tight">
+                    The Sunrise Coop
+                </h1>
+                <p class="mt-4 text-lg sm:text-xl text-slate-600 max-w-2xl mx-auto">An automated, solar-powered system for raising healthier, happier chickens with less labor and more respect.</p>
+            </header>
+
+            <main>
+                <div class="bg-white p-8 sm:p-12 rounded-2xl shadow-lg border border-slate-200/80">
+                    <div class="prose max-w-none">
+                        <p class="text-xl">Traditional chicken coops require daily manual intervention and often fail to protect flocks from predators. The Sunrise Coop is Saffire's solution: a resourceful, intelligent system that automates the daily rhythms of the coop, ensuring the flock is safe, secure, and lives in harmony with the sun.</p>
+                        
+                        <hr class="my-8">
+
+                        <h2 class="text-3xl font-bold text-center mb-12">Key Features</h2>
+                        
+                        <div class="grid md:grid-cols-2 gap-10">
+                            <!-- Feature 1: Automated Solar Door -->
+                            <div class="flex items-start space-x-4">
+                                <div class="flex-shrink-0 h-12 w-12 rounded-lg bg-yellow-100 text-yellow-600 flex items-center justify-center">
+                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+                                </div>
+                                <div>
+                                    <h3 class="text-xl font-bold">Automated Solar Door</h3>
+                                    <p class="mt-1 text-slate-600">A light-sensitive, solar-powered door automatically opens at sunrise and closes securely at sunset, protecting the flock from nocturnal predators without any daily labor.</p>
+                                </div>
+                            </div>
+                            <!-- Feature 2: Resourceful Design -->
+                            <div class="flex items-start space-x-4">
+                                <div class="flex-shrink-0 h-12 w-12 rounded-lg bg-blue-100 text-blue-600 flex items-center justify-center">
+                                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h4a2 2 0 012 2v2m0 0h-4"></path></svg>
+                                </div>
+                                <div>
+                                    <h3 class="text-xl font-bold">Resourceful Design</h3>
+                                    <p class="mt-1 text-slate-600">Based on proven tradecraft, the coop is built with simple materials for maximum durability, ventilation, and predator resistance, ensuring a safe and healthy environment.</p>
+                                </div>
+                            </div>
+                             <!-- Feature 3: Nutrient Cycling Hub -->
+                            <div class="flex items-start space-x-4">
+                                <div class="flex-shrink-0 h-12 w-12 rounded-lg bg-green-100 text-green-600 flex items-center justify-center">
+                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                                </div>
+                                <div>
+                                    <h3 class="text-xl font-bold">Nutrient Cycling Hub</h3>
+                                    <p class="mt-1 text-slate-600">The coop is designed for easy collection of nitrogen-rich manure and bedding, creating "black gold" compost that is a vital fertilizer for the entire farm.</p>
+                                </div>
+                            </div>
+                            <!-- Feature 4: Animal Well-being -->
+                            <div class="flex items-start space-x-4">
+                                <div class="flex-shrink-0 h-12 w-12 rounded-lg bg-red-100 text-red-600 flex items-center justify-center">
+                                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                </div>
+                                <div>
+                                    <h3 class="text-xl font-bold">Focus on Well-being</h3>
+                                    <p class="mt-1 text-slate-600">A spacious, protected run allows the flock to express their natural behaviors—foraging, dust bathing, and enjoying fresh air—leading to happier, healthier birds.</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-12 bg-soft-terracotta rounded-lg p-8 text-center">
+                            <h3 class="text-2xl font-bold">Proven in the Field.</h3>
+                            <p class="mt-2 max-w-2xl mx-auto">The Sunrise Coop at Lila Farm is not a concept; it's a success story. It's a key part of our "Respect for Life" philosophy and the secret behind our delicious, nutrient-dense pasture-raised eggs.</p>
+                            <a href="lila_farm.html#offerings" class="mt-4 bg-blue-600 text-white font-bold px-6 py-3 rounded-lg inline-block hover:bg-blue-700 transition-colors">Explore Lila Farm</a>
+                        </div>
+                    </div>
+                </div>
+            </main>
+
+            <footer class="text-center mt-16 pt-12 border-t border-slate-200">
+                 <p class="text-slate-500">&copy; 2025 LOTUS Nexus. All Rights Reserved.</p>
+            </footer>
+        </div>
+    </div>
+</body>
+</html>

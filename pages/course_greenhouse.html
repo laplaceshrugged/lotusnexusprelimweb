@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Course: The Synapse Greenhouse Masterclass</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Lora:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'saffire-gold': '#FBBF24',
+                        'soft-terracotta': '#F3E9E2',
+                    },
+                    fontFamily: {
+                        'sans': ['Inter', 'sans-serif'],
+                        'serif': ['Lora', 'serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #FDFBF8;
+            color: #334155;
+            padding-top: 80px; /* Added padding for fixed header */
+        }
+        h1, h2, h3, h4, h5 {
+            font-family: 'Lora', serif;
+            color: #111827;
+        }
+        .header-scrolled {
+            background-color: rgba(253, 251, 248, 0.8);
+            border-bottom-width: 1px;
+            border-color: #e7e5e4;
+            backdrop-filter: blur(16px);
+            box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+        }
+        .header-scrolled .brand-text {
+            color: #111827;
+        }
+        .icon-lotus { 
+            display: inline-block;
+            width: 1.25em;
+            height: 1.25em;
+            background-color: currentColor;
+            clip-path: path('M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.16 2.54 7.68 6.08 9.13C9.28 21.6 10.6 22 12 22s2.72-.4 3.92-.87C19.46 19.68 22 16.16 22 12zM12 4c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2zm0 16c-3.31 0-6-2.69-6-6s2.69-6 6-6 6 2.69 6 6-2.69 6-6 6z'); 
+            transform: scale(0.06) translate(-200px, -200px); 
+        }
+        .prose strong {
+            font-family: 'Lora', serif;
+            font-weight: 600;
+            color: #1e3a8a; /* A deep blue for emphasis */
+        }
+        .module-item .indicator {
+            transition: transform 0.3s ease-in-out;
+        }
+        .module-item.expanded .indicator {
+            transform: rotate(180deg);
+        }
+        .lesson-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-in-out, padding 0.5s ease-in-out;
+        }
+        .module-item.expanded .lesson-content {
+            max-height: 100rem; /* Large value to accommodate content */
+            padding-top: 1.5rem;
+            padding-bottom: 1.5rem;
+        }
+    </style>
+</head>
+<body class="antialiased">
+    <header id="main-header" class="fixed top-0 left-0 right-0 z-50 header-scrolled">
+        <div class="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="saffire.html" class="flex items-center space-x-3">
+                 <span class="icon-lotus text-pink-500 text-3xl"></span>
+                 <span class="font-serif text-2xl font-bold brand-text">Saffire</span>
+                 <span class="font-sans text-sm text-slate-500 ml-2">by LOTUS Nexus</span>
+            </a>
+            <a href="lila_farm.html" class="bg-blue-600 text-white font-semibold px-5 py-2.5 rounded-lg shadow-lg hover:bg-blue-700 active:scale-95 transition-all duration-200">
+                See it in Action at Lila Farm
+            </a>
+        </div>
+    </header>
+
+    <div class="p-4 sm:p-6 lg:p-8">
+        <div class="max-w-4xl mx-auto">
+            <header class="text-center py-12">
+                <a href="online_courses.html" class="text-blue-600 hover:underline font-semibold mb-4 inline-block">&larr; Back to All Courses</a>
+                <h1 class="text-5xl sm:text-6xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-indigo-500 tracking-tight">
+                    The Synapse Greenhouse
+                </h1>
+                <p class="mt-4 text-lg sm:text-xl text-slate-600 max-w-2xl mx-auto">An AI-Powered Masterclass</p>
+            </header>
+
+            <main>
+                <div class="bg-white p-8 sm:p-12 rounded-2xl shadow-lg border border-slate-200/80">
+                    <div class="grid md:grid-cols-2 gap-8 items-center">
+                        <div>
+                            <h2 class="text-3xl font-bold mb-4">The Complete Blueprint for Our "Living Laboratory"</h2>
+                            <p class="text-slate-600 leading-relaxed mb-6">This is our premium, deep-dive masterclass for the serious homesteader, small farmer, or innovator. Taught by The Founders and guided by our Mentors, this course is the complete guide to building and operating a low-cost, high-performance aeroponic greenhouse, from constructing the resourceful Maker Pipe frame to integrating the AI 'listening' systems.</p>
+                            <a href="#" class="bg-saffire-gold text-slate-900 font-bold px-8 py-4 rounded-lg inline-block hover:opacity-90 transition-opacity text-lg">Enroll Now (Coming Soon)</a>
+                        </div>
+                        <div>
+                            <img src="https://images.unsplash.com/photo-1625246333195-69d9c3494442?q=80&w=2070&auto=format&fit=crop" alt="Interior of a modern greenhouse with saffron flowers blooming" class="rounded-lg shadow-md w-full h-auto object-cover">
+                        </div>
+                    </div>
+
+                    <div class="mt-16">
+                        <h3 class="text-2xl font-bold text-center mb-8">Course Curriculum</h3>
+                        <div class="space-y-4" id="curriculum-accordion">
+                            <!-- Module 1 -->
+                            <div class="module-item bg-soft-terracotta/50 border border-slate-200 rounded-lg">
+                                <button class="w-full flex justify-between items-center text-left p-6">
+                                    <span class="text-lg font-bold">Module 1: The Philosophy of Design</span>
+                                    <span class="indicator text-2xl font-light">&darr;</span>
+                                </button>
+                                <div class="lesson-content px-6">
+                                    <div class="border-t border-slate-300 pt-6">
+                                        <p class="text-slate-600 mb-4">Before the first pipe is cut, we explore the 'why'. This module covers the core principles of designing a greenhouse that is not just a structure, but a system—one that is resourceful, resilient, and aligned with a regenerative mission.</p>
+                                        <h5 class="font-bold text-lg mb-2">Lessons Include:</h5>
+                                        <ul class="list-disc list-inside space-y-1 text-slate-600">
+                                            <li>Why We Chose a Resourceful, Low-Cost Build</li>
+                                            <li>Designing for Your Climate: Passive Cooling & Heating</li>
+                                            <li>Integrating the Greenhouse into Your Broader Farm Ecosystem</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                             <!-- Module 2 -->
+                            <div class="module-item bg-soft-terracotta/50 border border-slate-200 rounded-lg">
+                                <button class="w-full flex justify-between items-center text-left p-6">
+                                    <span class="text-lg font-bold">Module 2: The Build: A Guide to Maker Pipe</span>
+                                    <span class="indicator text-2xl font-light">&darr;</span>
+                                </button>
+                                <div class="lesson-content px-6">
+                                     <div class="border-t border-slate-300 pt-6">
+                                        <p class="text-slate-600 mb-4">The "Legacy of Tradecraft" in action. This is the hands-on guide to constructing your greenhouse frame using EMT conduit and Maker Pipe connectors, a method that requires no welding or specialized tools.</p>
+                                         <h5 class="font-bold text-lg mb-2">Lessons Include:</h5>
+                                        <ul class="list-disc list-inside space-y-1 text-slate-600">
+                                            <li>From Blueprint to Build: Planning Your Structure</li>
+                                            <li>Step-by-Step Frame Assembly</li>
+                                            <li>Anchoring, Bracing, and Covering Your Greenhouse</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Module 3 -->
+                             <div class="module-item bg-soft-terracotta/50 border border-slate-200 rounded-lg">
+                                <button class="w-full flex justify-between items-center text-left p-6">
+                                    <span class="text-lg font-bold">Module 3: The Aeroponics Engine</span>
+                                    <span class="indicator text-2xl font-light">&darr;</span>
+                                </button>
+                                <div class="lesson-content px-6">
+                                     <div class="border-t border-slate-300 pt-6">
+                                        <p class="text-slate-600 mb-4">A deep dive into the heart of the greenhouse. Learn the science and practical setup of a high-performance aeroponic system for soil-free growing.</p>
+                                         <h5 class="font-bold text-lg mb-2">Lessons Include:</h5>
+                                        <ul class="list-disc list-inside space-y-1 text-slate-600">
+                                            <li>Aeroponics 101: Pumps, Misters, and Nutrient Recipes</li>
+                                            <li>Building Your Vertical Grow Racks</li>
+                                            <li>Managing pH and Nutrients for Optimal Plant Health</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Module 4 -->
+                             <div class="module-item bg-soft-terracotta/50 border border-slate-200 rounded-lg">
+                                <button class="w-full flex justify-between items-center text-left p-6">
+                                    <span class="text-lg font-bold">Module 4: The Intelligence Layer on a Budget</span>
+                                    <span class="indicator text-2xl font-light">&darr;</span>
+                                </button>
+                                <div class="lesson-content px-6">
+                                     <div class="border-t border-slate-300 pt-6">
+                                        <p class="text-slate-600 mb-4">This is where the "Strategy" comes to life. Learn how to create a powerful, AI-driven climate control system using affordable, off-the-shelf smart home technology.</p>
+                                         <h5 class="font-bold text-lg mb-2">Lessons Include:</h5>
+                                        <ul class="list-disc list-inside space-y-1 text-slate-600">
+                                            <li>Choosing and Placing Your Sensors (Temp, Humidity, etc.)</li>
+                                            <li>Automating Fans, Vents, and Misters with Smart Plugs</li>
+                                            <li>Creating "If-Then" Recipes for an Automated Climate</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Module 5 -->
+                             <div class="module-item bg-soft-terracotta/50 border border-slate-200 rounded-lg">
+                                <button class="w-full flex justify-between items-center text-left p-6">
+                                    <span class="text-lg font-bold">Module 5: A Masterclass in Saffron</span>
+                                    <span class="indicator text-2xl font-light">&darr;</span>
+                                </button>
+                                <div class="lesson-content px-6">
+                                     <div class="border-t border-slate-300 pt-6">
+                                        <p class="text-slate-600 mb-4">Our specialty crop. This final module teaches the precise techniques required to use your new Synapse Greenhouse to grow one of the world's most valuable and delicate crops.</p>
+                                         <h5 class="font-bold text-lg mb-2">Lessons Include:</h5>
+                                        <ul class="list-disc list-inside space-y-1 text-slate-600">
+                                            <li>Sourcing and Curing Saffron Corms</li>
+                                            <li>The Art of Forcing Blooms: Simulating Autumn in Your Greenhouse</li>
+                                            <li>Harvesting, Drying, and Storing Your Saffron Threads</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+
+            <footer class="text-center mt-16 pt-12 border-t border-slate-200">
+                 <p class="text-slate-500">&copy; 2025 LOTUS Nexus. All Rights Reserved.</p>
+            </footer>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const accordionItems = document.querySelectorAll('.module-item');
+
+            accordionItems.forEach(item => {
+                const button = item.querySelector('button');
+                button.addEventListener('click', () => {
+                    accordionItems.forEach(otherItem => {
+                        if (otherItem !== item) {
+                            otherItem.classList.remove('expanded');
+                        }
+                    });
+                    item.classList.toggle('expanded');
+                });
+            });
+        });
+    </script>
+</body>
+</html>
+

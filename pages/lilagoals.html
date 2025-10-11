@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lila Farm Conceptual Chart</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .node text {
+            font-size: 13px;
+            font-weight: 500;
+            paint-order: stroke;
+            stroke: #f8fafc;
+            stroke-width: 3px;
+            stroke-linecap: butt;
+            stroke-linejoin: miter;
+        }
+        .link {
+            fill: none;
+            stroke: #cbd5e1;
+            stroke-width: 2px;
+        }
+        #chart {
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+    <div class="flex flex-col items-center justify-center min-h-screen p-4 sm:p-6 md:p-8">
+        <div class="w-full max-w-6xl bg-white rounded-2xl shadow-lg p-6 md:p-8 border border-gray-200">
+            <div class="text-center mb-6">
+                <h1 class="text-3xl md:text-4xl font-bold text-gray-900">Lila Farm Conceptual Chart</h1>
+                <p class="text-gray-600 mt-2">A structured overview of the farm's philosophy, systems, and offerings.</p>
+            </div>
+            <div id="chart-container" class="w-full h-[60vh] md:h-[70vh] rounded-lg bg-gray-100/50 border border-gray-200 overflow-hidden flex items-center justify-center">
+                <svg id="chart"></svg>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // --- HIERARCHICAL DATA ---
+            const chartData = {
+                name: "Lila Farm, SPC",
+                type: "business",
+                children: [
+                    {
+                        name: "Philosophy (SAFFIRE)",
+                        type: "product",
+                        children: [
+                            { name: "S: Sowing", type: "concept" },
+                            { name: "A: And", type: "concept" },
+                            { name: "F: Fostering", type: "concept" },
+                            { name: "F: Fruitful", type: "concept" },
+                            { name: "I: Interactions", type: "concept" },
+                            { name: "R: Respecting", type: "concept" },
+                            { name: "E: Everything", type: "concept" }
+                        ]
+                    },
+                    {
+                        name: "Saffire Systems",
+                        type: "product",
+                        children: [
+                            { name: "Smart Herd Management", type: "concept" },
+                            { name: "The Synapse Greenhouse", type: "concept" },
+                            { name: "The Sunrise Coop", type: "concept" },
+                            { name: "AI-Powered Apiary", type: "concept" },
+                            { name: "The Sentinel Drone", type: "concept" }
+                        ]
+                    },
+                    {
+                        name: "Offerings",
+                        type: "product",
+                        children: [
+                            { name: "Guided Herd Encounters (2026)", type: "concept" },
+                            { name: "The Farm Stand (2026)", type: "concept" },
+                            { name: "Pasture-Raised Eggs (2026)", type: "concept" },
+                            { name: "Artisanal Honey (2026)", type: "concept" }
+                        ]
+                    },
+                    {
+                        name: "Community Roots",
+                        type: "product",
+                        children: [
+                            { name: "Alachua County Small Farmer Grant (Awarded August 2025)", type: "concept" },
+                            { name: "Sullivan Farm (Mentorship)", type: "concept" },
+                            { name: "Neighbors Farm (Foundation Herd)", type: "concept" }
+                        ]
+                    },
+                    {
+                        name: "Leadership",
+                        type: "product",
+                        children: [
+                            { name: "Adityaa Ravi (Farmpreneur & Founder)", type: "concept" }
+                        ]
+                    },
+                     {
+                        name: "Business Details",
+                        type: "product",
+                        children: [
+                            { name: "Structure: Social Purpose Corporation", type: "concept" },
+                            { name: "Stage: Conceptual", type: "concept" },
+                            { name: "Incorporation: October 2025", type: "concept" }
+                        ]
+                    }
+                ]
+            };
+            
+            const container = document.getElementById('chart-container');
+
+            const typeColors = {
+                'business': '#EC4899',
+                'product': '#10b981',
+                'concept': '#6366f1'
+            };
+
+            const svg = d3.select("#chart");
+            const g = svg.append("g");
+            
+            function wrap(text, width) {
+                text.each(function() {
+                    let text = d3.select(this),
+                        words = text.text().split(/\s+/).reverse(),
+                        word,
+                        line = [],
+                        lineNumber = 0,
+                        lineHeight = 1.1, // ems
+                        x = text.attr("x"),
+                        y = text.attr("y"),
+                        dy = 0,
+                        tspan = text.text(null).append("tspan").attr("x", x).attr("y", y).attr("dy", dy + "em");
+                    while (word = words.pop()) {
+                        line.push(word);
+                        tspan.text(line.join(" "));
+                        if (tspan.node().getComputedTextLength() > width) {
+                            line.pop();
+                            tspan.text(line.join(" "));
+                            line = [word];
+                            tspan = text.append("tspan").attr("x", x).attr("y", y).attr("dy", ++lineNumber * lineHeight + dy + "em").text(word);
+                        }
+                    }
+                });
+            }
+
+            function update() {
+                // Increased height significantly to ensure vertical spacing
+                const height = 800; 
+                const width = 900;
+
+                const clusterLayout = d3.cluster().size([height, width - 260]);
+                const root = d3.hierarchy(chartData);
+                clusterLayout(root);
+
+                g.selectAll("*").remove();
+
+                g.append("g")
+                    .attr("class", "links")
+                    .selectAll("path")
+                    .data(root.links())
+                    .join("path")
+                    .attr("class", "link")
+                    .attr("d", d => d3.linkHorizontal()({
+                        source: [d.source.y, d.source.x],
+                        target: [d.target.y, d.target.x]
+                    }));
+
+                const node = g.append("g")
+                    .attr("class", "nodes")
+                    .selectAll("g")
+                    .data(root.descendants())
+                    .join("g")
+                    .attr("transform", d => `translate(${d.y},${d.x})`);
+
+                node.append("circle")
+                    .attr("r", 8)
+                    .attr("fill", d => typeColors[d.data.type])
+                    .attr("stroke", d => d3.color(typeColors[d.data.type]).darker(1))
+                    .attr("stroke-width", 2);
+                
+                node.append("text")
+                    .text(d => d.data.name)
+                    .attr("dy", "0.31em")
+                    .attr("x", d => d.children ? -16 : 16)
+                    .attr("text-anchor", d => d.children ? "end" : "start")
+                    .style("font-size", d => {
+                         if (d.data.type === 'business') return '20px';
+                         if (d.data.type === 'product') return '16px';
+                         return '12px';
+                    })
+                    .style("font-weight", d => (d.data.type === 'business' || d.data.type === 'product') ? '600' : '500')
+                    .attr('fill', d => d.data.type === 'business' ? '#1e2d3b' : '#334155')
+                    .call(wrap, 280);
+
+                const box = g.node().getBBox();
+                const padding = 20;
+                svg.attr("preserveAspectRatio", "xMidYMid meet")
+                   .attr("viewBox", `${box.x - padding} ${box.y - padding} ${box.width + padding * 2} ${box.height + padding * 2}`);
+            }
+            
+            new ResizeObserver(update).observe(container);
+            update();
+        });
+    </script>
+</body>
+</html>
+

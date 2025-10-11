@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fenestra | A LOTUS Nexus Initiative</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Lora:wght@400;600&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'fenestra-green': '#10B981', // A vibrant green for education and energy
+                        'nexus-gray': '#1F2937',
+                    },
+                    fontFamily: {
+                        'sans': ['Inter', 'sans-serif'],
+                        'serif': ['Lora', 'serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F9FAFB;
+            color: #374151;
+        }
+        h1, h2, h3 {
+            font-family: 'Lora', serif;
+            color: #111827;
+        }
+        .dark-section {
+            background-color: #111827;
+        }
+        .dark-section h1, .dark-section h2, .dark-section p {
+            color: #D1D5DB;
+        }
+        .scroll-section {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 8rem 1rem;
+        }
+        .icon-lotus { 
+            display: inline-block;
+            width: 1.25em;
+            height: 1.25em;
+            background-color: currentColor;
+            clip-path: path('M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.16 2.54 7.68 6.08 9.13C9.28 21.6 10.6 22 12 22s2.72-.4 3.92-.87C19.46 19.68 22 16.16 22 12zM12 4c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2zm0 16c-3.31 0-6-2.69-6-6s2.69-6 6-6 6 2.69 6 6-2.69 6-6 6z'); 
+            transform: scale(0.06) translate(-200px, -200px); 
+        }
+        .feature-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.15);
+        }
+    </style>
+</head>
+<body class="antialiased">
+    <header id="main-header" class="fixed top-0 left-0 right-0 z-50 bg-slate-900/80 backdrop-blur-lg border-b border-slate-700">
+        <div class="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="#" class="flex items-center space-x-3">
+                 <span class="icon-lotus text-fenestra-green text-3xl"></span>
+                 <span class="font-serif text-2xl font-bold text-white">Fenestra</span>
+                 <span class="font-sans text-sm text-slate-400 ml-2">by LOTUS Nexus</span>
+            </a>
+            <a href="#status-section" class="bg-fenestra-green text-white font-semibold px-5 py-2.5 rounded-lg shadow-lg hover:bg-emerald-600 active:scale-95 transition-all duration-200">
+                Get Notified
+            </a>
+        </div>
+    </header>
+
+    <main>
+        <div id="story-intro">
+            <section id="problem-section" class="scroll-section text-center dark-section text-white relative overflow-hidden">
+                 <div class="container mx-auto px-6 relative z-10">
+                    <div>
+                        <p class="text-lg font-semibold text-fenestra-green mb-2">The Problem: A High Barrier to Entry</p>
+                        <h1 class="text-4xl md:text-6xl font-serif leading-tight max-w-4xl mx-auto text-white">
+                            Fenestration software is powerful, but mastering it is a steep and often isolating climb.
+                        </h1>
+                        <p class="text-xl text-slate-300 max-w-3xl mx-auto mt-6">
+                           The tools that drive building energy analysis are complex and intimidating for students and entry-level professionals, creating a critical skills gap in a vital industry.
+                        </p>
+                    </div>
+                </div>
+            </section>
+            
+            <section id="solution-section" class="scroll-section text-center bg-slate-50">
+                <div class="container mx-auto px-6">
+                    <div>
+                        <p class="text-lg font-semibold text-fenestra-green mb-2">The Fenestra Vision: Education Through a New Lens</p>
+                        <h2 class="text-4xl md:text-6xl font-serif leading-tight max-w-4xl mx-auto text-slate-800">
+                            The most profound strategy isn't just to teach the tool, but to inspire the next generation of innovators.
+                        </h2>
+                        <p class="text-xl text-slate-600 max-w-3xl mx-auto mt-6">
+                            Born from a Gen Z high schooler's vision, Fenestra is an educational platform that demystifies fenestration analysis. It builds foundational skills for LBNL's THERM & WINDOW software through engaging, accessible, and practical learning modules.
+                        </p>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <section id="features-section" class="py-24 bg-white">
+            <div class="max-w-6xl mx-auto px-6">
+                <div class="text-center mb-16">
+                    <h2 class="text-3xl font-bold">The Fenestra Learning Core</h2>
+                    <p class="mt-2 text-slate-600 max-w-2xl mx-auto">A suite of educational tools designed to build confidence and competence in fenestration analysis.</p>
+                </div>
+                <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                    <!-- Feature 1 -->
+                    <div class="bg-white p-6 rounded-2xl shadow-lg border border-slate-200/80 transition-all feature-card">
+                        <div class="flex-shrink-0 h-16 w-16 rounded-lg bg-emerald-100 text-fenestra-green flex items-center justify-center">
+                            <svg class="w-8 h-8" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" /><path stroke-linecap="round" stroke-linejoin="round" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                        </div>
+                        <h3 class="text-xl font-bold text-slate-800 mt-4 mb-1">Interactive Modules</h3>
+                        <p class="text-slate-600 text-sm">Step-by-step video tutorials and hands-on exercises for LBNL's THERM and WINDOW software.</p>
+                    </div>
+                    <!-- Feature 2 -->
+                    <div class="bg-white p-6 rounded-2xl shadow-lg border border-slate-200/80 transition-all feature-card">
+                        <div class="flex-shrink-0 h-16 w-16 rounded-lg bg-emerald-100 text-fenestra-green flex items-center justify-center">
+                           <svg class="w-8 h-8" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
+                        </div>
+                        <h3 class="text-xl font-bold text-slate-800 mt-4 mb-1">Real-World Projects</h3>
+                        <p class="text-slate-600 text-sm">Apply your new skills to practical building energy analysis case studies, from residential homes to commercial buildings.</p>
+                    </div>
+                    <!-- Feature 3 -->
+                     <div class="bg-white p-6 rounded-2xl shadow-lg border border-slate-200/80 transition-all feature-card">
+                        <div class="flex-shrink-0 h-16 w-16 rounded-lg bg-emerald-100 text-fenestra-green flex items-center justify-center">
+                             <svg class="w-8 h-8" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.783-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" /></svg>
+                        </div>
+                        <h3 class="text-xl font-bold text-slate-800 mt-4 mb-1">Skill Certification</h3>
+                        <p class="text-slate-600 text-sm">Earn shareable certificates as you master new competencies, validating your skills for potential employers.</p>
+                    </div>
+                    <!-- Feature 4 -->
+                    <div class="bg-white p-6 rounded-2xl shadow-lg border border-slate-200/80 transition-all feature-card">
+                        <div class="flex-shrink-0 h-16 w-16 rounded-lg bg-emerald-100 text-fenestra-green flex items-center justify-center">
+                           <svg class="w-8 h-8" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.653-.125-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.653.125-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
+                        </div>
+                        <h3 class="text-xl font-bold text-slate-800 mt-4 mb-1">Community Access</h3>
+                        <p class="text-slate-600 text-sm">Connect with peers, ask questions, and learn from industry mentors in a dedicated online community.</p>
+                    </div>
+                </div>
+            </section>
+        </section>
+
+        <section id="use-cases-section" class="py-24 bg-slate-50">
+            <div class="max-w-6xl mx-auto px-6">
+                <div class="text-center mb-16">
+                    <h2 class="text-3xl font-bold">Opening Windows of Opportunity</h2>
+                    <p class="mt-2 text-slate-600 max-w-2xl mx-auto">Fenestra is designed to build a pipeline of talent for the entire fenestration industry.</p>
+                </div>
+                <div class="grid lg:grid-cols-2 gap-8 items-center">
+                    <div class="relative">
+                        <img src="https://images.unsplash.com/photo-1524178232363-1fb2b075b655?q=80&w=2070&auto=format&fit=crop" alt="Students in a modern classroom learning" class="rounded-2xl shadow-xl w-full h-auto object-cover">
+                    </div>
+                    <div class="space-y-8">
+                        <div class="flex items-start space-x-4">
+                            <div class="flex-shrink-0 w-12 h-12 bg-white rounded-lg shadow-md flex items-center justify-center"><p class="text-2xl">🎓</p></div>
+                            <div>
+                                <h3 class="text-xl font-bold">For Students</h3>
+                                <p class="text-slate-600 mt-1">Gain a competitive edge with in-demand skills and discover a rewarding career path in sustainable building design.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start space-x-4">
+                             <div class="flex-shrink-0 w-12 h-12 bg-white rounded-lg shadow-md flex items-center justify-center"><p class="text-2xl">👷</p></div>
+                            <div>
+                                <h3 class="text-xl font-bold">For Entry-Level Professionals</h3>
+                                <p class="text-slate-600 mt-1">Upskill and accelerate your career by mastering the industry-standard tools for fenestration performance analysis.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start space-x-4">
+                             <div class="flex-shrink-0 w-12 h-12 bg-white rounded-lg shadow-md flex items-center justify-center"><p class="text-2xl">🏢</p></div>
+                            <div>
+                                <h3 class="text-xl font-bold">For The Fenestration Industry</h3>
+                                <p class="text-slate-600 mt-1">Cultivate the next generation of talent. Partner with Fenestra to train new hires and invest in the future of your workforce.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="status-section" class="py-24 bg-white">
+            <div class="max-w-4xl mx-auto px-6 text-center">
+                <h2 class="text-3xl font-bold">From Vision to Reality</h2>
+                 <div class="mt-8 grid sm:grid-cols-2 gap-8 text-left">
+                    <div class="bg-slate-50 p-6 rounded-lg border">
+                        <h3 class="font-bold text-lg text-fenestra-green">Project Status</h3>
+                        <p class="text-slate-600 mt-1">Fenestra is currently in the <strong>conceptual stage</strong> as we develop the curriculum and platform features.</p>
+                    </div>
+                    <div class="bg-slate-50 p-6 rounded-lg border">
+                        <h3 class="font-bold text-lg text-fenestra-green">Upcoming Presentation</h3>
+                        <p class="text-slate-600 mt-1">The vision for Fenestra will be presented at the <strong>NFRC Fall Meeting on October 15, 2025</strong>.</p>
+                    </div>
+                </div>
+                <div class="mt-12">
+                     <h3 class="text-2xl font-bold">Follow Our Progress</h3>
+                     <p class="mt-2 text-slate-600 max-w-2xl mx-auto">Sign up for updates on our development, launch announcements, and early access to our first educational modules.</p>
+                     <form id="interest-form" class="mt-8 flex flex-col sm:flex-row gap-4 max-w-lg mx-auto">
+                        <label for="interest-email" class="sr-only">Email address</label>
+                        <input type="email" name="interest-email" id="interest-email" class="w-full px-4 py-3 rounded-md border-slate-300 shadow-sm focus:border-fenestra-green/50 focus:ring-fenestra-green/50" placeholder="Enter your email" required>
+                        <button type="submit" class="sm:w-auto bg-fenestra-green text-white font-bold py-3 px-6 rounded-lg hover:bg-emerald-600 transition-colors flex-shrink-0">Get Notified</button>
+                    </form>
+                    <div id="success-message" class="text-green-700 font-semibold text-center pt-4" style="display: none;"></div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="dark-section border-t border-slate-700">
+        <div class="max-w-6xl mx-auto py-6 px-6 text-center text-slate-400">
+             <p>&copy; 2025 LOTUS Nexus. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            gsap.registerPlugin(ScrollTrigger);
+
+            // Animate sections on scroll
+            const sections = ['#features-section', '#use-cases-section', '#status-section'];
+            sections.forEach(selector => {
+                const section = document.querySelector(selector);
+                if (section) {
+                    gsap.from(section, { 
+                        scrollTrigger: { trigger: section, start: "top 85%", toggleActions: "play none none none" }, 
+                        opacity: 0, 
+                        y: 50, 
+                        duration: 0.8, 
+                        ease: "power1.out" 
+                    });
+                }
+            });
+
+            // Form submission simulation
+            const interestForm = document.getElementById('interest-form');
+            if (interestForm) {
+                const successMessage = document.getElementById('success-message');
+                interestForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    if (successMessage) {
+                        successMessage.textContent = 'Thank you! We will keep you updated.';
+                        successMessage.style.display = 'block';
+                    }
+                    interestForm.reset();
+                    setTimeout(() => { if (successMessage) { successMessage.style.display = 'none'; } }, 5000);
+                });
+            }
+        });
+    </script>
+</body>
+</html>

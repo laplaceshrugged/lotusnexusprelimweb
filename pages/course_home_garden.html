@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Course: The Saffire Home Garden</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Lora:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'saffire-gold': '#FBBF24',
+                        'soft-terracotta': '#F3E9E2',
+                    },
+                    fontFamily: {
+                        'sans': ['Inter', 'sans-serif'],
+                        'serif': ['Lora', 'serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #FDFBF8;
+            color: #334155;
+            padding-top: 80px; /* Added padding for fixed header */
+        }
+        h1, h2, h3, h4, h5 {
+            font-family: 'Lora', serif;
+            color: #111827;
+        }
+        .header-scrolled {
+            background-color: rgba(253, 251, 248, 0.8);
+            border-bottom-width: 1px;
+            border-color: #e7e5e4;
+            backdrop-filter: blur(16px);
+            box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+        }
+        .header-scrolled .brand-text {
+            color: #111827;
+        }
+        .icon-lotus { 
+            display: inline-block;
+            width: 1.25em;
+            height: 1.25em;
+            background-color: currentColor;
+            clip-path: path('M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.16 2.54 7.68 6.08 9.13C9.28 21.6 10.6 22 12 22s2.72-.4 3.92-.87C19.46 19.68 22 16.16 22 12zM12 4c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2zm0 16c-3.31 0-6-2.69-6-6s2.69-6 6-6 6 2.69 6 6-2.69 6-6 6z'); 
+            transform: scale(0.06) translate(-200px, -200px); 
+        }
+        .prose strong {
+            font-family: 'Lora', serif;
+            font-weight: 600;
+            color: #1e3a8a; /* A deep blue for emphasis */
+        }
+        .module-item .indicator {
+            transition: transform 0.3s ease-in-out;
+        }
+        .module-item.expanded .indicator {
+            transform: rotate(180deg);
+        }
+        .lesson-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-in-out, padding 0.5s ease-in-out;
+        }
+        .module-item.expanded .lesson-content {
+            max-height: 100rem; /* Large value to accommodate content */
+            padding-top: 1.5rem;
+            padding-bottom: 1.5rem;
+        }
+    </style>
+</head>
+<body class="antialiased">
+    <header id="main-header" class="fixed top-0 left-0 right-0 z-50 header-scrolled">
+        <div class="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="saffire.html" class="flex items-center space-x-3">
+                 <span class="icon-lotus text-pink-500 text-3xl"></span>
+                 <span class="font-serif text-2xl font-bold brand-text">Saffire</span>
+                 <span class="font-sans text-sm text-slate-500 ml-2">by LOTUS Nexus</span>
+            </a>
+            <a href="lila_farm.html" class="bg-blue-600 text-white font-semibold px-5 py-2.5 rounded-lg shadow-lg hover:bg-blue-700 active:scale-95 transition-all duration-200">
+                See it in Action at Lila Farm
+            </a>
+        </div>
+    </header>
+
+    <div class="p-4 sm:p-6 lg:p-8">
+        <div class="max-w-4xl mx-auto">
+            <header class="text-center py-12">
+                <a href="online_courses.html" class="text-blue-600 hover:underline font-semibold mb-4 inline-block">&larr; Back to All Courses</a>
+                <h1 class="text-5xl sm:text-6xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-green-600 to-blue-500 tracking-tight">
+                    The Saffire Home Garden
+                </h1>
+                <p class="mt-4 text-lg sm:text-xl text-slate-600 max-w-2xl mx-auto">An introductory online course on using simple tech to listen to your land.</p>
+            </header>
+
+            <main>
+                <div class="bg-white p-8 sm:p-12 rounded-2xl shadow-lg border border-slate-200/80">
+                    <div class="grid md:grid-cols-2 gap-8 items-center">
+                        <div>
+                            <h2 class="text-3xl font-bold mb-4">It's Not Just About Planting a Garden. It's About Starting a Conversation.</h2>
+                            <p class="text-slate-600 leading-relaxed mb-6">This course is the foundation of the Saffire philosophy, adapted for your own backyard, patio, or balcony. We're not just going to teach you 'how to garden'—we're going to teach you how to *listen* to your plants and your soil. You'll learn to use simple, accessible technology not to command nature, but to understand it, creating a more resilient, productive, and joyful garden with less waste and fewer chemicals.</p>
+                            <a href="#" class="bg-saffire-gold text-slate-900 font-bold px-8 py-4 rounded-lg inline-block hover:opacity-90 transition-opacity text-lg">Enroll Now (Coming Soon)</a>
+                        </div>
+                        <div>
+                            <img src="https://images.unsplash.com/photo-1466692476868-aef6dfb1e735?q=80&w=2070&auto=format&fit=crop" alt="A vibrant and healthy home garden." class="rounded-lg shadow-md w-full h-auto object-cover">
+                        </div>
+                    </div>
+
+                    <div class="mt-16">
+                        <h3 class="text-2xl font-bold text-center mb-8">Course Curriculum</h3>
+                        <div class="space-y-4" id="curriculum-accordion">
+                            <!-- Module 1 -->
+                            <div class="module-item bg-soft-terracotta/50 border border-slate-200 rounded-lg">
+                                <button class="w-full flex justify-between items-center text-left p-6">
+                                    <span class="text-lg font-bold">Module 1: The Philosophy</span>
+                                    <span class="indicator text-2xl font-light">&darr;</span>
+                                </button>
+                                <div class="lesson-content px-6">
+                                    <div class="border-t border-slate-300 pt-6">
+                                        <p class="text-slate-600 mb-4">Welcome, future listener! This foundational module introduces a profound shift in mindset. Instead of viewing your garden as a factory, you'll learn to see it as a complex, living ecosystem where every element is in a constant, silent conversation. We'll explore how to apply the core SAFFIRE principles to your own space, no matter how small, and set the stage for becoming a more attentive and responsive steward of your land.</p>
+                                        <h5 class="font-bold text-lg mb-2">Lessons Include:</h5>
+                                        <ul class="list-disc list-inside space-y-1 text-slate-600">
+                                            <li>Your Garden as an Ecosystem</li>
+                                            <li>The SAFFIRE Principles for the Home Gardener</li>
+                                            <li>Shifting from 'Commanding' to 'Listening'</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Module 2 -->
+                            <div class="module-item bg-soft-terracotta/50 border border-slate-200 rounded-lg">
+                                <button class="w-full flex justify-between items-center text-left p-6">
+                                    <span class="text-lg font-bold">Module 2: Listening to Your Soil</span>
+                                    <span class="indicator text-2xl font-light">&darr;</span>
+                                </button>
+                                <div class="lesson-content px-6">
+                                    <div class="border-t border-slate-300 pt-6">
+                                        <p class="text-slate-600 mb-4">Soil is the foundation of all life in your garden. In this module, we'll move beyond guesswork and learn how to use simple, affordable sensors to gather real data, giving you a clear picture of your soil's health and needs.</p>
+                                        <h5 class="font-bold text-lg mb-2">Lessons Include:</h5>
+                                        <ul class="list-disc list-inside space-y-1 text-slate-600">
+                                            <li>Choosing Your First Sensor: A Guide to Affordable Tech</li>
+                                            <li>Placing Your Sensors for the Best Results</li>
+                                            <li>Understanding the Data: What Moisture and Nutrient Levels Really Mean</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Module 3 -->
+                             <div class="module-item bg-soft-terracotta/50 border border-slate-200 rounded-lg">
+                                <button class="w-full flex justify-between items-center text-left p-6">
+                                    <span class="text-lg font-bold">Module 3: Intelligent Watering</span>
+                                    <span class="indicator text-2xl font-light">&darr;</span>
+                                </button>
+                                <div class="lesson-content px-6">
+                                     <div class="border-t border-slate-300 pt-6">
+                                        <p class="text-slate-600 mb-4">Overwatering is one of the most common mistakes in gardening. This module teaches you how to use the data from your soil sensors to create a smart, efficient watering schedule that conserves water, prevents disease, and builds stronger, more resilient plants.</p>
+                                        <h5 class="font-bold text-lg mb-2">Lessons Include:</h5>
+                                        <ul class="list-disc list-inside space-y-1 text-slate-600">
+                                            <li>Connecting Your Sensors to Smart Timers</li>
+                                            <li>Reading the Signs of Thirst: Combining Data with Observation</li>
+                                            <li>Drip Irrigation Basics for Maximum Efficiency</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Module 4 -->
+                             <div class="module-item bg-soft-terracotta/50 border border-slate-200 rounded-lg">
+                                <button class="w-full flex justify-between items-center text-left p-6">
+                                    <span class="text-lg font-bold">Module 4: AI on Your Phone</span>
+                                    <span class="indicator text-2xl font-light">&darr;</span>
+                                </button>
+                                <div class="lesson-content px-6">
+                                     <div class="border-t border-slate-300 pt-6">
+                                        <p class="text-slate-600 mb-4">The most powerful diagnostic tool for your garden is already in your pocket. This module explores how to use AI-powered smartphone apps to instantly identify plants, diagnose pests and diseases from a photo, and get recommendations for precise, non-toxic, organic treatments.</p>
+                                         <h5 class="font-bold text-lg mb-2">Lessons Include:</h5>
+                                        <ul class="list-disc list-inside space-y-1 text-slate-600">
+                                            <li>The Best Apps for Plant Diagnosis</li>
+                                            <li>From Diagnosis to Organic Intervention</li>
+                                            <li>Building Your Garden's "Health Journal" with Your Phone</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                             <!-- Module 5 -->
+                             <div class="module-item bg-soft-terracotta/50 border border-slate-200 rounded-lg">
+                                <button class="w-full flex justify-between items-center text-left p-6">
+                                    <span class="text-lg font-bold">Module 5: Building Your Mini-Ecosystem</span>
+                                    <span class="indicator text-2xl font-light">&darr;</span>
+                                </button>
+                                <div class="lesson-content px-6">
+                                     <div class="border-t border-slate-300 pt-6">
+                                        <p class="text-slate-600 mb-4">A healthy garden is a balanced garden. This final module focuses on the Saffire principle of "Fruitful Interactions," teaching you how to attract beneficial wildlife to create a resilient, self-regulating ecosystem that requires fewer interventions.</p>
+                                         <h5 class="font-bold text-lg mb-2">Lessons Include:</h5>
+                                        <ul class="list-disc list-inside space-y-1 text-slate-600">
+                                            <li>Planting for Pollinators: Creating a Bee and Butterfly Haven</li>
+                                            <li>The Art of Companion Planting</li>
+                                            <li>Creating a Habitat for Beneficial Insects (Nature's Pest Control)</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+
+            <footer class="text-center mt-16 pt-12 border-t border-slate-200">
+                 <p class="text-slate-500">&copy; 2025 LOTUS Nexus. All Rights Reserved.</p>
+            </footer>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const accordionItems = document.querySelectorAll('.module-item');
+
+            accordionItems.forEach(item => {
+                const button = item.querySelector('button');
+                button.addEventListener('click', () => {
+                    // Optional: Close other items
+                    accordionItems.forEach(otherItem => {
+                        if (otherItem !== item) {
+                            otherItem.classList.remove('expanded');
+                        }
+                    });
+                    // Toggle current item
+                    item.classList.toggle('expanded');
+                });
+            });
+        });
+    </script>
+</body>
+</html>
+
