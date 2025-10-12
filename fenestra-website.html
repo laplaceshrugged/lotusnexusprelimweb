@@ -7,9 +7,11 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollToPlugin.min.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Lora:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script>
         tailwind.config = {
             theme: {
@@ -39,15 +41,17 @@
         .dark-section {
             background-color: #111827;
         }
-        .dark-section h1, .dark-section h2, .dark-section p {
+        .dark-section h1, .dark-section h2, .dark-section h3, .dark-section p, .dark-section label {
             color: #D1D5DB;
+        }
+        .scroll-section, .page-section {
+            padding: 8rem 1rem;
         }
         .scroll-section {
             min-height: 100vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
-            padding: 8rem 1rem;
         }
         .icon-lotus { 
             display: inline-block;
@@ -57,105 +61,227 @@
             clip-path: path('M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.16 2.54 7.68 6.08 9.13C9.28 21.6 10.6 22 12 22s2.72-.4 3.92-.87C19.46 19.68 22 16.16 22 12zM12 4c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2zm0 16c-3.31 0-6-2.69-6-6s2.69-6 6-6 6 2.69 6 6-2.69 6-6 6z'); 
             transform: scale(0.06) translate(-200px, -200px); 
         }
-        .feature-card:hover {
+        .info-card {
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+        }
+        .info-card:hover {
             transform: translateY(-8px);
             box-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.15);
+        }
+        #roadmap-timeline-bar-progress {
+            transform-origin: left;
+        }
+        #slide-nav {
+            position: fixed;
+            top: 50%;
+            right: 1.5rem;
+            transform: translateY(-50%);
+            z-index: 40;
+        }
+        #slide-nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        #slide-nav a {
+            display: block;
+            width: 12px;
+            height: 12px;
+            background-color: #9ca3af;
+            border-radius: 50%;
+            transition: all 0.2s ease-in-out;
+            position: relative;
+        }
+        #slide-nav a:hover {
+            background-color: #111827;
+        }
+        #slide-nav a.active {
+            background-color: #111827;
+            transform: scale(1.25);
+        }
+        #slide-nav .nav-tooltip {
+            position: absolute;
+            top: 50%;
+            right: 150%;
+            transform: translateY(-50%);
+            background-color: #111827;
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 0.375rem;
+            font-size: 0.875rem;
+            font-weight: 600;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.2s ease-in-out;
+        }
+        #slide-nav a:hover .nav-tooltip {
+            opacity: 1;
         }
     </style>
 </head>
 <body class="antialiased">
-    <header id="main-header" class="fixed top-0 left-0 right-0 z-50 bg-slate-900/80 backdrop-blur-lg border-b border-slate-700">
+    <nav id="slide-nav" aria-label="Page Sections">
+        <ul>
+            <li><a href="#problem-section" data-nav-for="problem-section" aria-label="Go to Problem section"><span class="nav-tooltip">Problem</span></a></li>
+            <li><a href="#solution-section" data-nav-for="solution-section" aria-label="Go to Vision section"><span class="nav-tooltip">Vision</span></a></li>
+            <li><a href="#philosophy-section" data-nav-for="philosophy-section" aria-label="Go to Philosophy section"><span class="nav-tooltip">Philosophy</span></a></li>
+            <li><a href="#features-section" data-nav-for="features-section" aria-label="Go to Features section"><span class="nav-tooltip">Features</span></a></li>
+            <li><a href="#bridge-section" data-nav-for="bridge-section" aria-label="Go to The Bridge section"><span class="nav-tooltip">The Bridge</span></a></li>
+            <li><a href="#use-cases-section" data-nav-for="use-cases-section" aria-label="Go to Audience section"><span class="nav-tooltip">Audience</span></a></li>
+            <li><a href="#vision-section" data-nav-for="vision-section" aria-label="Go to Collaboration section"><span class="nav-tooltip">Collaboration</span></a></li>
+            <li><a href="#roadmap-section" data-nav-for="roadmap-section" aria-label="Go to Roadmap section"><span class="nav-tooltip">Roadmap</span></a></li>
+            <li><a href="#contact-section" data-nav-for="contact-section" aria-label="Go to Contact section"><span class="nav-tooltip">Contact</span></a></li>
+        </ul>
+    </nav>
+    <header id="main-header" class="fixed top-0 left-0 right-0 z-50 bg-slate-900/80 backdrop-blur-lg border-b border-slate-700" role="banner">
         <div class="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
-            <a href="#" class="flex items-center space-x-3">
+            <a href="#" class="flex items-center space-x-3" aria-label="Fenestra by LOTUS Nexus Home">
                  <span class="icon-lotus text-fenestra-green text-3xl"></span>
                  <span class="font-serif text-2xl font-bold text-white">Fenestra</span>
                  <span class="font-sans text-sm text-slate-400 ml-2">by LOTUS Nexus</span>
             </a>
-            <a href="#status-section" class="bg-fenestra-green text-white font-semibold px-5 py-2.5 rounded-lg shadow-lg hover:bg-emerald-600 active:scale-95 transition-all duration-200">
+            <a href="#contact-section" class="bg-fenestra-green text-white font-semibold px-5 py-2.5 rounded-lg shadow-lg hover:bg-emerald-600 active:scale-95 transition-all duration-200">
                 Get Notified
             </a>
         </div>
     </header>
 
-    <main>
-        <div id="story-intro">
-            <section id="problem-section" class="scroll-section text-center dark-section text-white relative overflow-hidden">
-                 <div class="container mx-auto px-6 relative z-10">
-                    <div>
-                        <p class="text-lg font-semibold text-fenestra-green mb-2">The Problem: A High Barrier to Entry</p>
-                        <h1 class="text-4xl md:text-6xl font-serif leading-tight max-w-4xl mx-auto text-white">
-                            Fenestration software is powerful, but mastering it is a steep and often isolating climb.
-                        </h1>
-                        <p class="text-xl text-slate-300 max-w-3xl mx-auto mt-6">
-                           The tools that drive building energy analysis are complex and intimidating for students and entry-level professionals, creating a critical skills gap in a vital industry.
-                        </p>
-                    </div>
+    <main role="main">
+        <section id="problem-section" class="scroll-section text-center dark-section text-white relative overflow-hidden" aria-labelledby="problem-heading">
+             <div class="container mx-auto px-6 relative z-10">
+                <div>
+                    <p class="text-lg font-semibold text-fenestra-green mb-2">The Problem: A Widening Skills Gap</p>
+                    <h1 id="problem-heading" class="text-4xl md:text-6xl font-serif leading-tight max-w-4xl mx-auto text-white">
+                        Sustainable design has a bottleneck most people don't see.
+                    </h1>
+                    <p class="text-xl text-slate-300 max-w-3xl mx-auto mt-6">
+                       Specialized skills in both component analysis (using tools like LBNL's THERM & WINDOW) and whole-building energy modeling (using software like eQuest) are essential for sustainable design. Yet, these fields are often overlooked in education, creating a workforce gap that delays innovation.
+                    </p>
                 </div>
-            </section>
-            
-            <section id="solution-section" class="scroll-section text-center bg-slate-50">
-                <div class="container mx-auto px-6">
-                    <div>
-                        <p class="text-lg font-semibold text-fenestra-green mb-2">The Fenestra Vision: Education Through a New Lens</p>
-                        <h2 class="text-4xl md:text-6xl font-serif leading-tight max-w-4xl mx-auto text-slate-800">
-                            The most profound strategy isn't just to teach the tool, but to inspire the next generation of innovators.
-                        </h2>
-                        <p class="text-xl text-slate-600 max-w-3xl mx-auto mt-6">
-                            Born from a Gen Z high schooler's vision, Fenestra is an educational platform that demystifies fenestration analysis. It builds foundational skills for LBNL's THERM & WINDOW software through engaging, accessible, and practical learning modules.
-                        </p>
-                    </div>
+            </div>
+        </section>
+        
+        <section id="solution-section" class="scroll-section text-center bg-slate-50" aria-labelledby="solution-heading">
+            <div class="container mx-auto px-6">
+                <div>
+                    <p class="text-lg font-semibold text-fenestra-green mb-2">The Vision: Turning Complexity into Career Opportunity</p>
+                    <h2 id="solution-heading" class="text-4xl md:text-6xl font-serif leading-tight max-w-4xl mx-auto text-slate-800">
+                        We believe the path to a high-impact career in sustainable design should be clear and accessible.
+                    </h2>
+                    <p class="text-xl text-slate-600 max-w-3xl mx-auto mt-6">
+                        Born from a Gen Z founder’s passion to solve this exact problem, Fenestra is an educational platform that builds careers. We create a direct pathway into the most vital specialties in sustainable design, turning a complex topic into a career opportunity by demystifying the world of building performance analysis.
+                    </p>
                 </div>
-            </section>
-        </div>
+            </div>
+        </section>
 
-        <section id="features-section" class="py-24 bg-white">
+        <section id="philosophy-section" class="page-section bg-white" aria-labelledby="philosophy-heading">
+            <div class="max-w-6xl mx-auto px-6 text-center">
+                <div class="mb-16">
+                    <h2 id="philosophy-heading" class="text-3xl font-bold">Our Guiding Philosophy</h2>
+                    <p class="mt-4 text-xl text-slate-600 max-w-3xl mx-auto">Our vision is guided by a deep respect for the industry's past and a clear strategy for its future.</p>
+                </div>
+                <div class="grid md:grid-cols-2 gap-8 text-left max-w-4xl mx-auto">
+                    <div class="info-card bg-slate-50 p-8 rounded-lg border">
+                        <h3 class="text-2xl font-bold mb-2 flex items-center"><i class="fas fa-gavel mr-3 text-fenestra-green"></i>Legacy Of Tradecraft</h3>
+                        <p class="text-slate-600">We have a deep respect for the history, skill, and hands-on expertise that define the building performance industry.</p>
+                    </div>
+                    <div class="info-card bg-slate-50 p-8 rounded-lg border">
+                        <h3 class="text-2xl font-bold mb-2 flex items-center"><i class="fas fa-sitemap mr-3 text-fenestra-green"></i>Unified by Strategy</h3>
+                        <p class="text-slate-600">Our goal is to take that invaluable legacy and channel it through a modern, accessible, and strategic educational framework.</p>
+                    </div>
+                </div>
+                <blockquote class="mt-16 text-center max-w-3xl mx-auto">
+                    <p class="text-2xl italic text-gray-600">"Simplicity is the ultimate sophistication."</p>
+                    <cite class="mt-2 block font-semibold text-gray-500 not-italic">- Leonardo da Vinci</cite>
+                </blockquote>
+            </div>
+        </section>
+
+        <section id="features-section" class="page-section bg-slate-50" aria-labelledby="features-heading">
             <div class="max-w-6xl mx-auto px-6">
                 <div class="text-center mb-16">
-                    <h2 class="text-3xl font-bold">The Fenestra Learning Core</h2>
-                    <p class="mt-2 text-slate-600 max-w-2xl mx-auto">A suite of educational tools designed to build confidence and competence in fenestration analysis.</p>
+                    <h2 id="features-heading" class="text-3xl font-bold">The Fenestra Learning Core</h2>
+                    <p class="mt-4 text-xl text-slate-600 max-w-3xl mx-auto">We turned our philosophy into a suite of powerful, accessible learning tools.</p>
                 </div>
                 <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
                     <!-- Feature 1 -->
-                    <div class="bg-white p-6 rounded-2xl shadow-lg border border-slate-200/80 transition-all feature-card">
-                        <div class="flex-shrink-0 h-16 w-16 rounded-lg bg-emerald-100 text-fenestra-green flex items-center justify-center">
+                    <div class="info-card bg-white p-6 rounded-2xl shadow-lg border border-slate-200/80">
+                        <div class="flex-shrink-0 h-16 w-16 rounded-lg bg-emerald-100 text-fenestra-green flex items-center justify-center" aria-hidden="true">
                             <svg class="w-8 h-8" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" /><path stroke-linecap="round" stroke-linejoin="round" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
                         </div>
                         <h3 class="text-xl font-bold text-slate-800 mt-4 mb-1">Interactive Modules</h3>
-                        <p class="text-slate-600 text-sm">Step-by-step video tutorials and hands-on exercises for LBNL's THERM and WINDOW software.</p>
+                        <p class="text-slate-600 text-sm">Step-by-step tutorials for essential industry software, from component analysis tools like THERM to whole-building simulators like eQuest.</p>
                     </div>
                     <!-- Feature 2 -->
-                    <div class="bg-white p-6 rounded-2xl shadow-lg border border-slate-200/80 transition-all feature-card">
-                        <div class="flex-shrink-0 h-16 w-16 rounded-lg bg-emerald-100 text-fenestra-green flex items-center justify-center">
+                    <div class="info-card bg-white p-6 rounded-2xl shadow-lg border border-slate-200/80">
+                        <div class="flex-shrink-0 h-16 w-16 rounded-lg bg-emerald-100 text-fenestra-green flex items-center justify-center" aria-hidden="true">
                            <svg class="w-8 h-8" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
                         </div>
                         <h3 class="text-xl font-bold text-slate-800 mt-4 mb-1">Real-World Projects</h3>
                         <p class="text-slate-600 text-sm">Apply your new skills to practical building energy analysis case studies, from residential homes to commercial buildings.</p>
                     </div>
                     <!-- Feature 3 -->
-                     <div class="bg-white p-6 rounded-2xl shadow-lg border border-slate-200/80 transition-all feature-card">
-                        <div class="flex-shrink-0 h-16 w-16 rounded-lg bg-emerald-100 text-fenestra-green flex items-center justify-center">
+                     <div class="info-card bg-white p-6 rounded-2xl shadow-lg border border-slate-200/80">
+                        <div class="flex-shrink-0 h-16 w-16 rounded-lg bg-emerald-100 text-fenestra-green flex items-center justify-center" aria-hidden="true">
                              <svg class="w-8 h-8" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.783-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" /></svg>
                         </div>
                         <h3 class="text-xl font-bold text-slate-800 mt-4 mb-1">Skill Certification</h3>
                         <p class="text-slate-600 text-sm">Earn shareable certificates as you master new competencies, validating your skills for potential employers.</p>
                     </div>
                     <!-- Feature 4 -->
-                    <div class="bg-white p-6 rounded-2xl shadow-lg border border-slate-200/80 transition-all feature-card">
-                        <div class="flex-shrink-0 h-16 w-16 rounded-lg bg-emerald-100 text-fenestra-green flex items-center justify-center">
+                    <div class="info-card bg-white p-6 rounded-2xl shadow-lg border border-slate-200/80">
+                        <div class="flex-shrink-0 h-16 w-16 rounded-lg bg-emerald-100 text-fenestra-green flex items-center justify-center" aria-hidden="true">
                            <svg class="w-8 h-8" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.653-.125-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.653.125-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
                         </div>
                         <h3 class="text-xl font-bold text-slate-800 mt-4 mb-1">Community Access</h3>
                         <p class="text-slate-600 text-sm">Connect with peers, ask questions, and learn from industry mentors in a dedicated online community.</p>
                     </div>
                 </div>
-            </section>
+            </div>
+        </section>
+        
+        <section id="bridge-section" class="page-section bg-white" aria-labelledby="bridge-heading">
+            <div class="max-w-6xl mx-auto px-6 text-center">
+                <h2 id="bridge-heading" class="text-3xl font-bold">The Research-to-Practice Bridge</h2>
+                <p class="mt-4 text-xl text-slate-600 max-w-3xl mx-auto">The result is a clear, reliable process for transforming raw knowledge into job-ready expertise.</p>
+                <div class="mt-16 flex flex-col md:flex-row items-center justify-center space-y-8 md:space-y-0 md:space-x-8">
+                    <div class="info-card text-center bg-white p-8 rounded-lg shadow-xl w-64">
+                        <i class="fas fa-flask text-4xl text-slate-500 mb-4" aria-hidden="true"></i>
+                        <h3 class="text-2xl font-bold">Lab Research</h3>
+                        <p class="text-slate-600 mt-2">Core tools and science from LBNL, NREL, etc.</p>
+                    </div>
+                    <div class="text-5xl text-slate-300" aria-hidden="true">
+                        <i class="fas fa-long-arrow-alt-right hidden md:block"></i>
+                        <i class="fas fa-long-arrow-alt-down md:hidden"></i>
+                    </div>
+                    <div class="info-card text-center bg-fenestra-green text-white p-8 rounded-lg shadow-2xl w-64 transform scale-110">
+                        <span class="icon-lotus text-4xl mb-2"></span>
+                        <h3 class="text-2xl font-bold">Fenestra</h3>
+                        <p class="font-semibold mt-2">The Educational Bridge</p>
+                    </div>
+                    <div class="text-5xl text-slate-300" aria-hidden="true">
+                         <i class="fas fa-long-arrow-alt-right hidden md:block"></i>
+                         <i class="fas fa-long-arrow-alt-down md:hidden"></i>
+                    </div>
+                     <div class="info-card text-center bg-white p-8 rounded-lg shadow-xl w-64">
+                        <i class="fas fa-user-tie text-4xl text-slate-500 mb-4" aria-hidden="true"></i>
+                        <h3 class="text-2xl font-bold">Skilled Professional</h3>
+                        <p class="text-slate-600 mt-2">A job-ready, competent, and confident workforce.</p>
+                    </div>
+                </div>
+            </div>
         </section>
 
-        <section id="use-cases-section" class="py-24 bg-slate-50">
+        <section id="use-cases-section" class="page-section bg-slate-50" aria-labelledby="use-cases-heading">
             <div class="max-w-6xl mx-auto px-6">
                 <div class="text-center mb-16">
-                    <h2 class="text-3xl font-bold">Opening Windows of Opportunity</h2>
-                    <p class="mt-2 text-slate-600 max-w-2xl mx-auto">Fenestra is designed to build a pipeline of talent for the entire fenestration industry.</p>
+                    <h2 id="use-cases-heading" class="text-3xl font-bold">Opening Windows of Opportunity</h2>
+                    <p class="mt-4 text-xl text-slate-600 max-w-3xl mx-auto">This process creates tangible value for everyone in the sustainable design ecosystem.</p>
                 </div>
                 <div class="grid lg:grid-cols-2 gap-8 items-center">
                     <div class="relative">
@@ -163,23 +289,23 @@
                     </div>
                     <div class="space-y-8">
                         <div class="flex items-start space-x-4">
-                            <div class="flex-shrink-0 w-12 h-12 bg-white rounded-lg shadow-md flex items-center justify-center"><p class="text-2xl">🎓</p></div>
+                            <div class="flex-shrink-0 w-12 h-12 bg-white rounded-lg shadow-md flex items-center justify-center" aria-hidden="true"><p class="text-2xl">🎓</p></div>
                             <div>
                                 <h3 class="text-xl font-bold">For Students</h3>
-                                <p class="text-slate-600 mt-1">Gain a competitive edge with in-demand skills and discover a rewarding career path in sustainable building design.</p>
+                                <p class="text-slate-600 mt-1">Discover how specializing in building performance can make you an in-demand expert in the sustainable design industry.</p>
                             </div>
                         </div>
                         <div class="flex items-start space-x-4">
-                             <div class="flex-shrink-0 w-12 h-12 bg-white rounded-lg shadow-md flex items-center justify-center"><p class="text-2xl">👷</p></div>
+                             <div class="flex-shrink-0 w-12 h-12 bg-white rounded-lg shadow-md flex items-center justify-center" aria-hidden="true"><p class="text-2xl">👷</p></div>
                             <div>
                                 <h3 class="text-xl font-bold">For Entry-Level Professionals</h3>
-                                <p class="text-slate-600 mt-1">Upskill and accelerate your career by mastering the industry-standard tools for fenestration performance analysis.</p>
+                                <p class="text-slate-600 mt-1">Upskill and accelerate your career by mastering the full suite of tools for building performance, from component details to whole-building energy analysis.</p>
                             </div>
                         </div>
                         <div class="flex items-start space-x-4">
-                             <div class="flex-shrink-0 w-12 h-12 bg-white rounded-lg shadow-md flex items-center justify-center"><p class="text-2xl">🏢</p></div>
+                             <div class="flex-shrink-0 w-12 h-12 bg-white rounded-lg shadow-md flex items-center justify-center" aria-hidden="true"><p class="text-2xl">🏢</p></div>
                             <div>
-                                <h3 class="text-xl font-bold">For The Fenestration Industry</h3>
+                                <h3 class="text-xl font-bold">For The Building Industry</h3>
                                 <p class="text-slate-600 mt-1">Cultivate the next generation of talent. Partner with Fenestra to train new hires and invest in the future of your workforce.</p>
                             </div>
                         </div>
@@ -187,29 +313,119 @@
                 </div>
             </div>
         </section>
-        
-        <section id="status-section" class="py-24 bg-white">
-            <div class="max-w-4xl mx-auto px-6 text-center">
-                <h2 class="text-3xl font-bold">From Vision to Reality</h2>
-                 <div class="mt-8 grid sm:grid-cols-2 gap-8 text-left">
-                    <div class="bg-slate-50 p-6 rounded-lg border">
-                        <h3 class="font-bold text-lg text-fenestra-green">Project Status</h3>
-                        <p class="text-slate-600 mt-1">Fenestra is currently in the <strong>conceptual stage</strong> as we develop the curriculum and platform features.</p>
-                    </div>
-                    <div class="bg-slate-50 p-6 rounded-lg border">
-                        <h3 class="font-bold text-lg text-fenestra-green">Upcoming Presentation</h3>
-                        <p class="text-slate-600 mt-1">The vision for Fenestra will be presented at the <strong>NFRC Fall Meeting on October 15, 2025</strong>.</p>
+
+        <section id="vision-section" class="page-section bg-white" aria-labelledby="vision-heading">
+            <div class="max-w-6xl mx-auto px-6">
+                <div class="text-center mb-16">
+                    <h2 id="vision-heading" class="text-3xl font-bold">A Collaborative Vision</h2>
+                    <p class="mt-4 text-xl text-slate-600 max-w-3xl mx-auto">Our goal isn't just to train individuals, but to strengthen the entire industry by connecting its key pillars.</p>
+                </div>
+                <div class="relative w-full" style="min-height: 600px;" role="figure" aria-label="A diagram showing Fenestra as a central hub connecting various industry pillars.">
+                    <svg class="absolute inset-0 w-full h-full" viewBox="0 0 1000 600" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+                        <line x1="500" y1="300" x2="500" y2="120" stroke="#e2e8f0" stroke-width="2" stroke-dasharray="6 6"/>
+                        <line x1="500" y1="300" x2="250" y2="300" stroke="#e2e8f0" stroke-width="2" stroke-dasharray="6 6"/>
+                        <line x1="500" y1="300" x2="750" y2="300" stroke="#e2e8f0" stroke-width="2" stroke-dasharray="6 6"/>
+                        <line x1="500" y1="300" x2="350" y2="500" stroke="#e2e8f0" stroke-width="2" stroke-dasharray="6 6"/>
+                        <line x1="500" y1="300" x2="650" y2="500" stroke="#e2e8f0" stroke-width="2" stroke-dasharray="6 6"/>
+                    </svg>
+                    <div class="absolute inset-0 w-full h-full">
+                        <div class="absolute" style="top: 50%; left: 50%; transform: translate(-50%, -50%);">
+                            <div class="info-card bg-fenestra-green text-white rounded-full shadow-2xl flex flex-col items-center justify-center w-40 h-40 p-2 text-center">
+                                <span class="icon-lotus text-4xl mb-1"></span>
+                                <h3 class="text-xl font-bold">Fenestra</h3>
+                                <p class="text-base font-semibold">Platform</p>
+                            </div>
+                        </div>
+                        <div class="absolute w-52" style="top: 20%; left: 50%; transform: translate(-50%, -50%);"><div class="info-card bg-white p-4 rounded-lg shadow-lg text-center"><i class="fas fa-landmark text-3xl text-slate-500 mb-2" aria-hidden="true"></i><h4 class="font-bold text-base">National Goals</h4><p class="text-sm text-slate-600 mt-1 leading-tight">Supporting workforce development & energy efficiency.</p></div></div>
+                        <div class="absolute w-52" style="top: 50%; left: 25%; transform: translate(-50%, -50%);"><div class="info-card bg-white p-4 rounded-lg shadow-lg text-center"><i class="fas fa-flask text-3xl text-slate-500 mb-2" aria-hidden="true"></i><h4 class="font-bold text-base">Tech Transfer</h4><p class="text-sm text-slate-600 mt-1 leading-tight">Bridging research from National Labs to practitioners.</p></div></div>
+                        <div class="absolute w-52" style="top: 50%; left: 75%; transform: translate(-50%, -50%);"><div class="info-card bg-white p-4 rounded-lg shadow-lg text-center"><i class="fas fa-industry text-3xl text-slate-500 mb-2" aria-hidden="true"></i><h4 class="font-bold text-base">Future Workforce</h4><p class="text-sm text-slate-600 mt-1 leading-tight">Cultivating a pipeline of job-ready talent.</p></div></div>
+                        <div class="absolute w-52" style="top: 83%; left: 35%; transform: translate(-50%, -50%);"><div class="info-card bg-white p-4 rounded-lg shadow-lg text-center"><i class="fas fa-certificate text-3xl text-slate-500 mb-2" aria-hidden="true"></i><h4 class="font-bold text-base">Certification</h4><p class="text-sm text-slate-600 mt-1 leading-tight">Preparing professionals for official credentials (NFRC).</p></div></div>
+                        <div class="absolute w-52" style="top: 83%; left: 65%; transform: translate(-50%, -50%);"><div class="info-card bg-white p-4 rounded-lg shadow-lg text-center"><i class="fas fa-university text-3xl text-slate-500 mb-2" aria-hidden="true"></i><h4 class="font-bold text-base">Curricula</h4><p class="text-sm text-slate-600 mt-1 leading-tight">Providing practical tools to supplement academic learning.</p></div></div>
                     </div>
                 </div>
-                <div class="mt-12">
-                     <h3 class="text-2xl font-bold">Follow Our Progress</h3>
-                     <p class="mt-2 text-slate-600 max-w-2xl mx-auto">Sign up for updates on our development, launch announcements, and early access to our first educational modules.</p>
-                     <form id="interest-form" class="mt-8 flex flex-col sm:flex-row gap-4 max-w-lg mx-auto">
-                        <label for="interest-email" class="sr-only">Email address</label>
-                        <input type="email" name="interest-email" id="interest-email" class="w-full px-4 py-3 rounded-md border-slate-300 shadow-sm focus:border-fenestra-green/50 focus:ring-fenestra-green/50" placeholder="Enter your email" required>
-                        <button type="submit" class="sm:w-auto bg-fenestra-green text-white font-bold py-3 px-6 rounded-lg hover:bg-emerald-600 transition-colors flex-shrink-0">Get Notified</button>
-                    </form>
-                    <div id="success-message" class="text-green-700 font-semibold text-center pt-4" style="display: none;"></div>
+            </div>
+        </section>
+        
+        <section id="roadmap-section" class="page-section bg-slate-50" aria-labelledby="roadmap-heading">
+            <div class="max-w-5xl mx-auto px-6 w-full">
+                <h2 id="roadmap-heading" class="text-3xl font-bold text-center mb-16">From Vision to Reality: Our Roadmap</h2>
+                <div id="roadmap-container" class="relative">
+                    <!-- Timeline Bar -->
+                    <div class="absolute top-4 left-0 w-full h-0.5 bg-gray-200">
+                        <div id="roadmap-timeline-bar-progress" class="h-full bg-fenestra-green"></div>
+                    </div>
+                    <!-- Milestones -->
+                    <div class="grid grid-cols-4 gap-8 text-center relative">
+                        <div class="roadmap-milestone flex flex-col items-center">
+                            <div class="w-8 h-8 rounded-full bg-fenestra-green ring-8 ring-slate-50 z-10"></div>
+                            <h4 class="font-bold text-xl mt-4">Current Stage</h4>
+                            <p class="text-slate-600 text-sm">Conceptual: Developing curriculum and platform architecture.</p>
+                        </div>
+                         <div class="roadmap-milestone flex flex-col items-center">
+                            <div class="w-8 h-8 rounded-full bg-fenestra-green ring-8 ring-slate-50 z-10"></div>
+                            <h4 class="font-bold text-xl mt-4">Q4 2025</h4>
+                            <p class="text-slate-600 text-sm">Present vision at NFRC Fall Meeting & seek partnerships.</p>
+                        </div>
+                        <div class="roadmap-milestone flex flex-col items-center">
+                            <div class="w-8 h-8 rounded-full bg-fenestra-green ring-8 ring-slate-50 z-10"></div>
+                            <h4 class="font-bold text-xl mt-4">2026</h4>
+                            <p class="text-slate-600 text-sm">Launch beta version of Level 1 & 2 courses.</p>
+                        </div>
+                        <div class="roadmap-milestone flex flex-col items-center">
+                            <div class="w-8 h-8 rounded-full bg-gray-400 ring-8 ring-slate-50 z-10"></div>
+                            <h4 class="font-bold text-xl mt-4">Future</h4>
+                            <p class="text-slate-600 text-sm">Build out advanced pathways and community features.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact-section" class="dark-section py-24" aria-labelledby="contact-heading">
+            <div class="max-w-6xl w-full mx-auto px-6">
+                <div class="grid md:grid-cols-2 gap-16 items-center">
+                    <div class="text-center md:text-left">
+                        <h2 id="contact-heading" class="text-4xl font-bold text-white mb-6">Let's Build Together</h2>
+                        <p class="text-xl text-slate-300">We are seeking feedback, guidance, and potential partnerships from the leaders in this room. Your expertise is invaluable in shaping a tool that will serve our entire industry.</p>
+                        
+                        <div class="mt-8 text-left">
+                            <h3 class="text-2xl font-bold text-white mb-4">We Are Seeking:</h3>
+                            <ul class="space-y-3 text-slate-300">
+                                <li class="flex items-start"><i class="fa fa-user-tie fa-fw mr-3 mt-1 text-fenestra-green" aria-hidden="true"></i><div><strong class="text-white">Industry Experts</strong> to advise on our advanced curriculum modules.</div></li>
+                                <li class="flex items-start"><i class="fa fa-university fa-fw mr-3 mt-1 text-fenestra-green" aria-hidden="true"></i><div><strong class="text-white">Academic Partners</strong> to pilot Fenestra in the classroom.</div></li>
+                                <li class="flex items-start"><i class="fa fa-building fa-fw mr-3 mt-1 text-fenestra-green" aria-hidden="true"></i><div><strong class="text-white">Forward-Thinking Companies</strong> to join our advisory board.</div></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div id="contact-form-container" class="bg-slate-800/50 p-8 rounded-lg shadow-2xl">
+                        <form id="contact-form" aria-labelledby="form-title">
+                            <h3 id="form-title" class="text-3xl font-bold text-white mb-6">Get in Touch</h3>
+                            <div class="space-y-4">
+                                <div>
+                                    <label for="name" class="block text-sm font-medium text-slate-300">Full Name</label>
+                                    <input type="text" name="name" id="name" required class="mt-1 block w-full bg-slate-700/50 border border-slate-600 rounded-md shadow-sm py-2 px-3 text-white focus:outline-none focus:ring-2 focus:ring-fenestra-green">
+                                </div>
+                                <div>
+                                    <label for="email" class="block text-sm font-medium text-slate-300">Email Address</label>
+                                    <input type="email" name="email" id="email" required class="mt-1 block w-full bg-slate-700/50 border border-slate-600 rounded-md shadow-sm py-2 px-3 text-white focus:outline-none focus:ring-2 focus:ring-fenestra-green">
+                                </div>
+                                <div>
+                                    <label for="message" class="block text-sm font-medium text-slate-300">Message</label>
+                                    <textarea id="message" name="message" rows="4" required class="mt-1 block w-full bg-slate-700/50 border border-slate-600 rounded-md shadow-sm py-2 px-3 text-white focus:outline-none focus:ring-2 focus:ring-fenestra-green"></textarea>
+                                </div>
+                                <div>
+                                    <button type="submit" class="w-full bg-fenestra-green hover:bg-emerald-500 text-white font-bold py-3 px-4 rounded-md transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-slate-800 focus:ring-fenestra-green">Send Message</button>
+                                </div>
+                            </div>
+                        </form>
+                        <div id="success-message" class="hidden text-center" role="alert">
+                            <div class="mx-auto w-16 h-16 bg-fenestra-green rounded-full flex items-center justify-center" aria-hidden="true">
+                                <i class="fas fa-check text-white text-3xl"></i>
+                            </div>
+                            <h3 class="text-3xl font-bold text-white mt-6">Thank You!</h3>
+                            <p class="text-slate-300 mt-2">Your message has been sent. We will be in touch shortly.</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
@@ -223,38 +439,91 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            gsap.registerPlugin(ScrollTrigger);
+            gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
 
-            // Animate sections on scroll
-            const sections = ['#features-section', '#use-cases-section', '#status-section'];
-            sections.forEach(selector => {
-                const section = document.querySelector(selector);
-                if (section) {
-                    gsap.from(section, { 
-                        scrollTrigger: { trigger: section, start: "top 85%", toggleActions: "play none none none" }, 
-                        opacity: 0, 
-                        y: 50, 
-                        duration: 0.8, 
-                        ease: "power1.out" 
-                    });
-                }
+            const allSections = document.querySelectorAll('main > section');
+
+            allSections.forEach(section => {
+                 gsap.from(section, { 
+                    scrollTrigger: { trigger: section, start: "top 85%", toggleActions: "play none none none" }, 
+                    opacity: 0, 
+                    y: 50, 
+                    duration: 0.8, 
+                    ease: "power1.out" 
+                });
             });
-
-            // Form submission simulation
-            const interestForm = document.getElementById('interest-form');
-            if (interestForm) {
+            
+            const contactForm = document.getElementById('contact-form');
+            if (contactForm) {
                 const successMessage = document.getElementById('success-message');
-                interestForm.addEventListener('submit', function(e) {
+                contactForm.addEventListener('submit', function(e) {
                     e.preventDefault();
-                    if (successMessage) {
-                        successMessage.textContent = 'Thank you! We will keep you updated.';
-                        successMessage.style.display = 'block';
-                    }
-                    interestForm.reset();
-                    setTimeout(() => { if (successMessage) { successMessage.style.display = 'none'; } }, 5000);
+                     gsap.to(contactForm, {
+                        opacity: 0,
+                        duration: 0.3,
+                        onComplete: () => {
+                            contactForm.style.display = 'none';
+                            successMessage.style.display = 'block';
+                            gsap.fromTo(successMessage, { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out' });
+                        }
+                    });
                 });
             }
+
+            const roadmapContainer = document.getElementById('roadmap-container');
+            if (roadmapContainer) {
+                const timelineBar = document.getElementById('roadmap-timeline-bar-progress');
+                const milestones = gsap.utils.toArray('.roadmap-milestone');
+
+                gsap.set(timelineBar, { scaleX: 0 });
+                gsap.set(milestones, { opacity: 0, scale: 0.5 });
+
+                const roadmapTl = gsap.timeline({
+                    scrollTrigger: {
+                        trigger: roadmapContainer,
+                        start: 'top 70%',
+                        toggleActions: 'play none none reverse'
+                    }
+                });
+
+                roadmapTl.to(timelineBar, { scaleX: 1, duration: 1, ease: 'power2.inOut' })
+                         .to(milestones, {
+                             opacity: 1,
+                             scale: 1,
+                             duration: 0.5,
+                             ease: 'back.out(1.7)',
+                             stagger: 0.25
+                         }, "-=0.5");
+            }
+
+            const navLinks = gsap.utils.toArray('#slide-nav a');
+
+            allSections.forEach(section => {
+                ScrollTrigger.create({
+                    trigger: section,
+                    start: "top center",
+                    end: "bottom center",
+                    onToggle: self => {
+                        const navLink = document.querySelector(`[data-nav-for="${section.id}"]`);
+                        if (navLink) {
+                            navLink.classList.toggle('active', self.isActive);
+                        }
+                    }
+                });
+            });
+
+            navLinks.forEach(link => {
+                link.addEventListener('click', e => {
+                    e.preventDefault();
+                    gsap.to(window, {
+                        duration: 1,
+                        scrollTo: e.currentTarget.getAttribute('href'),
+                        ease: 'power2.inOut'
+                    });
+                });
+            });
         });
     </script>
 </body>
 </html>
+
